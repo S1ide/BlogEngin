@@ -1,19 +1,16 @@
 package com.naumen.blogeng.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Post {
-    private final DateFormat dateFormat = new SimpleDateFormat("s:m:h dd/MM/yyyy");
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -24,12 +21,15 @@ public class Post {
 
     private Date date;
 
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
     protected Post(){};
 
     public Post(@NonNull String header, @NonNull String text) {
         this.header = header;
         this.text = text;
-        this.date = dateFormat.getCalendar().getTime();
+        this.date = new Date();
     }
 
     public void setHeader(@NonNull String header) {
@@ -38,6 +38,10 @@ public class Post {
 
     public void setText(@NonNull String text) {
         this.text = text;
+    }
+
+    public void addComment(Comment comment){
+        comments.add(comment);
     }
 
     @NonNull

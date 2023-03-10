@@ -57,6 +57,9 @@ public class BlogUser {
     public List<Post> getPosts() {
         return posts;
     }
+    public void addPost(Post post){
+        posts.add(post);
+    }
 
     public String getEmail() {
         return email;
