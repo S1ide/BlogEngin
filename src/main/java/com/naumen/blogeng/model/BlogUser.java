@@ -19,6 +19,10 @@ public class BlogUser {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_user_id")
     private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "blog_user_id")
+    private List<Comment> comments = new ArrayList<>();
     @NonNull
     private String email;
 

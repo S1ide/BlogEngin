@@ -2,9 +2,6 @@ package com.naumen.blogeng.model;
 
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,14 +18,22 @@ public class Post {
 
     private Date date;
 
+    @ManyToOne(cascade = CascadeType.ALL) // Добавила еще зависимость с пользователем
+    @JoinColumn(name = "blog_user_id")
+    private BlogUser blogUser;
+
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
-    protected Post(){};
+    protected Post() {
+    }
 
-    public Post(@NonNull String header, @NonNull String text) {
+    ;
+
+    public Post(@NonNull String header, @NonNull String text, @NonNull BlogUser blogUser) {
         this.header = header;
         this.text = text;
+        this.blogUser = blogUser;
         this.date = new Date();
     }
 
@@ -40,7 +45,7 @@ public class Post {
         this.text = text;
     }
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
         comments.add(comment);
     }
 
@@ -56,5 +61,9 @@ public class Post {
 
     public Date getDate() {
         return date;
+    }
+
+    public BlogUser getBlogUser() {
+        return blogUser;
     }
 }
