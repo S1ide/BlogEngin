@@ -18,7 +18,7 @@ public class Post {
 
     private Date date;
 
-    @ManyToOne(cascade = CascadeType.ALL) // Добавила еще зависимость с пользователем
+    @ManyToOne // Добавила еще зависимость с пользователем
     @JoinColumn(name = "blog_user_id")
     private BlogUser blogUser;
 
