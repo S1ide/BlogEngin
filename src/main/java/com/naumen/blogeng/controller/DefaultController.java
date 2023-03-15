@@ -1,6 +1,7 @@
 package com.naumen.blogeng.controller;
 
-import com.naumen.blogeng.repository.UserRepository;
+import com.naumen.blogeng.model.BlogUser;
+import com.naumen.blogeng.repository.BlogUserRepository;
 import com.naumen.blogeng.service.CommentService;
 import com.naumen.blogeng.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,10 @@ public class DefaultController {
 
     private PostService postService;
     private CommentService commentService;
-    private UserRepository userRepository;
+    private BlogUserRepository userRepository;
 
     @Autowired
-    public DefaultController(PostService postService, CommentService commentService, UserRepository userRepository){
+    public DefaultController(PostService postService, CommentService commentService, BlogUserRepository userRepository){
         this.postService = postService;
         this.commentService = commentService;
         this.userRepository = userRepository;
@@ -29,8 +30,8 @@ public class DefaultController {
     //TODO получить юзера из контекста
     @PostMapping("/post")
     public String addPost(@RequestParam String header, @RequestParam String text){
-//        BlogUser blogUser = new BlogUser("123", "123", "123"); // временно пока не получили юзера из контекста
-//        userRepository.save(blogUser);
+        BlogUser blogUser = new BlogUser("123", "123", "123"); // временно пока не получили юзера из контекста
+        userRepository.save(blogUser);
         postService.addPost(header, text, blogUser);
         return "redirect:/";
     }
@@ -38,8 +39,8 @@ public class DefaultController {
     //TODO получить юзера из контекста
     @PostMapping("/post/{postId}/comment")
     public String addComment(@RequestParam String text, @PathVariable String postId){
-//        BlogUser blogUser = new BlogUser("123", "123", "123"); // временно пока не получили юзера из контекста
-//        userRepository.save(blogUser); // для теста
+       BlogUser blogUser = new BlogUser("123", "123", "123"); // временно пока не получили юзера из контекста
+        userRepository.save(blogUser); // для теста
         commentService.addComment(text, postId, blogUser);
         return "redirect:/post/{postId}"; //отправляет на пока не существующую страницу, там должен будет быть пост с которого отправляли комментарий
     }

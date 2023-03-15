@@ -18,7 +18,6 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-
     public void addComment(String text, String postId, BlogUser blogUser) {
         long id = Long.parseLong(postId);
         Comment comment = new Comment(text, postRepository.getPostById(id), blogUser);
