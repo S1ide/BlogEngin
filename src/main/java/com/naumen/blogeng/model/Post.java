@@ -37,6 +37,10 @@ public class Post {
         this.date = new Date();
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     public void setHeader(@NonNull String header) {
         this.header = header;
     }
@@ -65,5 +69,9 @@ public class Post {
 
     public BlogUser getBlogUser() {
         return blogUser;
+    }
+
+    public long getId() {
+        return id;
     }
 }
