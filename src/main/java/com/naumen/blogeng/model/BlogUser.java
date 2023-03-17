@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Table(name="blog_users")
 @Entity
+//TODO рефактор кода: убрать ненужные приставки в нейминге;
 public class BlogUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
