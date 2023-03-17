@@ -14,10 +14,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class BlogUserServiceImpl implements BlogUserService{
-    private BlogUserRepository blogUserRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-
+    private final BlogUserRepository blogUserRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public BlogUserServiceImpl(BlogUserRepository blogUserRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder ) {
         this.blogUserRepository = blogUserRepository;
@@ -26,11 +25,12 @@ public class BlogUserServiceImpl implements BlogUserService{
     }
 
     @Override
-    public void saveUser(DtoBlogUser userDto){
+    public void saveUser(DtoBlogUser userDto)
+    {
         BlogUser user = new BlogUser();
-        user.setUsername(userDto.getFirstName() + userDto.getLastName());
+        user.setUsername(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setUsername(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_ADMIN");
         if(role == null){
@@ -40,19 +40,22 @@ public class BlogUserServiceImpl implements BlogUserService{
         blogUserRepository.save(user);
     }
     @Override
-    public BlogUser findUserByEmail(String email){
+    public BlogUser findUserByEmail(String email)
+    {
         return blogUserRepository.findByEmail(email);
     }
 
     @Override
-    public List<DtoBlogUser> findAllUsers(){
+    public List<DtoBlogUser> findAllUsers()
+    {
         List<BlogUser> users = blogUserRepository.findAll();
         return users.stream()
                 .map((user) -> mapToUseDto(user))
                 .collect(Collectors.toList());
     }
 
-    public DtoBlogUser mapToUseDto(BlogUser user){
+    public DtoBlogUser mapToUseDto(BlogUser user)
+    {
         DtoBlogUser dtoBlogUser = new DtoBlogUser();
         String[] str = user.getUsername().split(" ");
         dtoBlogUser.setFirstName(str[0]);
@@ -61,7 +64,8 @@ public class BlogUserServiceImpl implements BlogUserService{
         return dtoBlogUser;
     }
 
-    public Role checkRoleExist(){
+    public Role checkRoleExist()
+    {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);

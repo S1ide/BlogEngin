@@ -12,8 +12,10 @@ public class BlogUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NonNull
+    @Column(name = "username")
     private String username;
     @NonNull
+    @Column()
     private String password;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_user_id")
@@ -25,7 +27,9 @@ public class BlogUser {
     @NonNull
     private String email;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "roles_users")
+    @JoinTable(name = "roles_users",
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles;
 
     //protected BlogUser() {}

@@ -5,9 +5,12 @@ import com.naumen.blogeng.model.Role;
 import com.naumen.blogeng.repository.BlogUserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -27,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         BlogUser user = userRepository.findByEmail(email);
 
         if (user != null) {
-            return new org.springframework.security.core.userdetails.User(user.getEmail(),
+            return new User(user.getEmail(),
                     user.getPassword(),
                     mapRolesToAuthorities(user.getRoles()));
         }else{
@@ -41,4 +44,5 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .collect(Collectors.toList());
         return mapRoles;
     }
-}
+
+ }

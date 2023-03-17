@@ -16,9 +16,9 @@ public class DtoBlogUser {
     private String lastName;
     @NotEmpty(message = "Password should not be empty")
     private String password;
-    @NotEmpty
+  //  @NotEmpty
     private List<Post> posts;
-    @NotEmpty
+   // @NotEmpty
     private List<Comment> comments;
     @NotEmpty(message = "Email should not be empty")
     @Email
