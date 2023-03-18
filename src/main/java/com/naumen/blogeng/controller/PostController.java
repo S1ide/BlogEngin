@@ -29,7 +29,7 @@ public class PostController {
 
     //TODO получить юзера из контекста,
     //Добавлен Model model
-    @PostMapping("/")
+    @PostMapping
     public String addPost(@RequestParam String header, @RequestParam String text, Model model){
         BlogUser blogUser = new BlogUser("123", "123", "123"); // временно пока не получили юзера из контекста
         userRepository.save(blogUser);
@@ -52,10 +52,15 @@ public class PostController {
     // TODO добавить проверку id существует ли в бд
     @GetMapping("/{postId}")
     public String viewText(@PathVariable String postId, Model model){
-        Post onePost = postService.getById(Long.parseLong(postId));
-        model.addAttribute("onePost", onePost);
-        model.addAttribute("comments", onePost.getComments());
-        return "fullText";
+        try {
+            Post onePost = postService.getById(Long.parseLong(postId));
+            model.addAttribute("onePost", onePost);
+            model.addAttribute("comments", onePost.getComments());
+            return "fullText";
+        } catch (NullPointerException nullPointerException){
+            return "redirect:/";
+        }
+
     }
 
 //    @GetMapping("/{postId}/edit")

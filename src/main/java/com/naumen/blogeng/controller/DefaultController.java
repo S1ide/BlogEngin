@@ -1,9 +1,6 @@
 package com.naumen.blogeng.controller;
 
-import com.naumen.blogeng.model.BlogUser;
 import com.naumen.blogeng.model.Post;
-import com.naumen.blogeng.repository.UserRepository;
-import com.naumen.blogeng.service.CommentService;
 import com.naumen.blogeng.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
