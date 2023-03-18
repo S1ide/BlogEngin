@@ -20,7 +20,7 @@
     <div class="alert alert-info mt-2">
       <p th:text="${onePost.text}"/>
       <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a>
-        <a th:href="@{/post/{id}/remove(id=${onePost.id})}" th:text="'Удалить'" class="btn btn-warning"></a>
+      <a th:href="@{/post/{id}/remove(id=${onePost.id})}" th:text="'Удалить'" class="btn btn-warning"></a>
       <p th:text="${onePost.getBlogUser().getUsername()}"/>
       <p th:text="${onePost.date}"/>
     </div>
@@ -33,17 +33,12 @@
   </div>
 
   <div th:each="comment : ${comments}" class="alert alert-info mt-2">
-    <p th:text="${comment.getblogUser().getUsername()}">
-    <p th:text="${comment.textComment}">
-    <p th:text="${comment.date}">
-    <a th:href="@{/post/{id}/comment/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a>
-    <a th:href="@{/post/{id}/comment/remove(id=${onePost.id})}" th:text="'Удалить'" class="btn btn-warning"></a>
+    <p th:text="${comment.getblogUser().getUsername()}"/>
+    <p th:text="${comment.textComment}"/>
+    <p th:text="${comment.date}"/>
+    <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}" th:text="'Редактировать'" class="btn btn-warning"></a>
+    <a th:href="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}" th:text="'Удалить'" class="btn btn-warning"></a>
   </div>
 </div>
-
-
-
-
-
 </body>
 </html>
