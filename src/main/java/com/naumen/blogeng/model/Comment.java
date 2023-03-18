@@ -41,7 +41,15 @@ public class Comment {
     @NonNull
     public String getTextComment() {return textComment;}
 
+    public BlogUser getblogUser() {
+        return blogUser;
+    }
+
     public void setTextComment(@NonNull String textComment) {
         this.textComment = textComment;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

@@ -46,10 +46,10 @@ public class DefaultController {
 
     //TODO получить юзера из контекста
 
-    // String postId не должен быть long?
+
     @PostMapping("/post/{postId}/comment")
-    public String addComment(@RequestParam String text, @PathVariable String postId){
-        BlogUser blogUser = new BlogUser("123", "123", "123"); // временно пока не получили юзера из контекста
+    public String addComment(@RequestParam String text, @PathVariable String postId, Model model){
+        BlogUser blogUser = new BlogUser("1234", "1234", "1234"); // временно пока не получили юзера из контекста
         userRepository.save(blogUser); // для теста
         commentService.addComment(text, postId, blogUser);
 

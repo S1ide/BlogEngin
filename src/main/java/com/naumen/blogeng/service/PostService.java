@@ -2,8 +2,10 @@ package com.naumen.blogeng.service;
 
 
 import com.naumen.blogeng.model.BlogUser;
+import com.naumen.blogeng.model.Comment;
 import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,4 +29,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-}
+
+    }
+
+

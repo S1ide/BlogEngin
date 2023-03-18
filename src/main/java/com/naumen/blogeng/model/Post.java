@@ -49,9 +49,6 @@ public class Post {
         this.text = text;
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-    }
 
     @NonNull
     public String getHeader() {
@@ -74,4 +71,6 @@ public class Post {
     public long getId() {
         return id;
     }
+
+
 }

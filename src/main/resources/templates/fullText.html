@@ -16,12 +16,28 @@
 </div>
 
 <div class="container mt-5 mb-5">
+  <h1 th:text="${onePost.header}"></h1>
+    <div class="alert alert-info mt-2">
+      <p th:text="${onePost.text}"/>
+      <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a>
+        <a th:href="@{/post/{id}/remove(id=${onePost.id})}" th:text="'Удалить'" class="btn btn-warning"></a>
+      <p th:text="${onePost.getBlogUser().getUsername()}"/>
+      <p th:text="${onePost.date}"/>
+    </div>
+
   <div>
-    <h3 th:text="${onePost.header}"></h3>
-    <p th:text="${onePost.text}">
-    <a href="/post/{post.id}/edit" th:text="'Редактировать'" class="btn btn-warning"></a>
-      <a href="/post/{post.id}/delete" th:text="'Удалить'" class="btn btn-warning"></a>
-    <p th:text="${onePost.date}">
+    <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post">
+      <input type="text" name="text" placeholder="Напишите свой комментарий" class="form-control"><br>
+      <button type="submit" class="btn btn-success" th:text="'Опубликовать'"></button>
+    </form>
+  </div>
+
+  <div th:each="comment : ${comments}" class="alert alert-info mt-2">
+    <p th:text="${comment.getblogUser().getUsername()}">
+    <p th:text="${comment.textComment}">
+    <p th:text="${comment.date}">
+    <a th:href="@{/post/{id}/comment/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a>
+    <a th:href="@{/post/{id}/comment/remove(id=${onePost.id})}" th:text="'Удалить'" class="btn btn-warning"></a>
   </div>
 </div>
 
