@@ -19,7 +19,6 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-
     public void addComment(String text, String postId, BlogUser blogUser) {
         Comment comment = new Comment(text, postRepository.getPostById(Long.parseLong(postId)), blogUser);
         commentRepository.save(comment);

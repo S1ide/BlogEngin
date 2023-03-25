@@ -5,16 +5,18 @@ import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Table(name="blog_users")
 @Entity
+//TODO рефактор кода: убрать ненужные приставки в нейминге;
 public class BlogUser {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NonNull
+    @Column(name = "username")
     private String username;
     @NonNull
+    @Column()
     private String password;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "blog_user_id")
@@ -25,8 +27,15 @@ public class BlogUser {
     private List<Comment> comments = new ArrayList<>();
     @NonNull
     private String email;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "roles_users",
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+    private List<Role> roles;
 
-    protected BlogUser() {}
+    //protected BlogUser() {}
+
+    public BlogUser() {}
 
     public BlogUser(@NonNull String username, @NonNull String password, @NonNull String email) {
         this.username = username;
@@ -44,6 +53,10 @@ public class BlogUser {
 
     public void setEmail(@NonNull String email) {
         this.email = email;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
     }
 
     public long getId() {
@@ -67,5 +80,9 @@ public class BlogUser {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
