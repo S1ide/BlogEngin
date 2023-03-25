@@ -53,7 +53,7 @@ public class AuthController {
         }
 
         blogUserService.saveUser(dtoBlogUser);
-        return "redirect:/registration?success";
+        return "redirect:/login";
 
     }
 
