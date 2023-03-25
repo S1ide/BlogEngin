@@ -31,12 +31,7 @@ public class BlogUserServiceImpl implements BlogUserService{
         user.setUsername(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        Role role = roleRepository.findByName("ROLE_ADMIN");
-        if(role == null){
-            role = checkRoleExist();
-        }
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(List.of(new Role("ROLE_USER")));
         blogUserRepository.save(user);
     }
     @Override
@@ -54,8 +49,7 @@ public class BlogUserServiceImpl implements BlogUserService{
                 .collect(Collectors.toList());
     }
 
-    public DtoBlogUser mapToUseDto(BlogUser user)
-    {
+    public DtoBlogUser mapToUseDto(BlogUser user) {
         DtoBlogUser dtoBlogUser = new DtoBlogUser();
         String[] str = user.getUsername().split(" ");
         dtoBlogUser.setFirstName(str[0]);
@@ -64,10 +58,4 @@ public class BlogUserServiceImpl implements BlogUserService{
         return dtoBlogUser;
     }
 
-    public Role checkRoleExist()
-    {
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        return roleRepository.save(role);
-    }
 }
