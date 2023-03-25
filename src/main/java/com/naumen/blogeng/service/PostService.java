@@ -30,6 +30,12 @@ public class PostService {
     }
 
 
+    public void updatePost(Post post) {
+        postRepository.save(post);
+    }
+    public void removePost(Post post) {
+        postRepository.delete(post);
+    }
     }
 
 

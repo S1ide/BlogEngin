@@ -24,4 +24,8 @@ public class CommentService {
         Comment comment = new Comment(text, postRepository.getPostById(Long.parseLong(postId)), blogUser);
         commentRepository.save(comment);
 }
+
+    public Comment getById(long id) {
+        return commentRepository.getCommentById(id);
+    }
 }

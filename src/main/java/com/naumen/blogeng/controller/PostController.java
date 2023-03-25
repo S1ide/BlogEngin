@@ -1,6 +1,7 @@
 package com.naumen.blogeng.controller;
 
 import com.naumen.blogeng.model.BlogUser;
+import com.naumen.blogeng.model.Comment;
 import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.repository.UserRepository;
 import com.naumen.blogeng.service.CommentService;
@@ -20,7 +21,7 @@ public class PostController {
     private final UserRepository userRepository;
 
     @Autowired
-    public PostController(PostService postService, CommentService commentService, UserRepository userRepository){
+    public PostController(PostService postService, CommentService commentService, UserRepository userRepository) {
         this.postService = postService;
         this.commentService = commentService;
         this.userRepository = userRepository;
@@ -30,7 +31,7 @@ public class PostController {
     //TODO получить юзера из контекста,
     //Добавлен Model model
     @PostMapping
-    public String addPost(@RequestParam String header, @RequestParam String text, Model model){
+    public String addPost(@RequestParam String header, @RequestParam String text, Model model) {
         BlogUser blogUser = new BlogUser("123", "123", "123"); // временно пока не получили юзера из контекста
         userRepository.save(blogUser);
         postService.addPost(header, text, blogUser);
@@ -41,7 +42,7 @@ public class PostController {
 
 
     @PostMapping("/{postId}/comment")
-    public String addComment(@RequestParam String text, @PathVariable String postId, Model model){
+    public String addComment(@RequestParam String text, @PathVariable String postId, Model model) {
         BlogUser blogUser = new BlogUser("1234", "1234", "1234"); // временно пока не получили юзера из контекста
         userRepository.save(blogUser); // для теста
         commentService.addComment(text, postId, blogUser);
@@ -51,20 +52,46 @@ public class PostController {
 
     // TODO добавить проверку id существует ли в бд
     @GetMapping("/{postId}")
-    public String viewText(@PathVariable String postId, Model model){
+    public String viewText(@PathVariable String postId, Model model) {
         try {
             Post onePost = postService.getById(Long.parseLong(postId));
             model.addAttribute("onePost", onePost);
             model.addAttribute("comments", onePost.getComments());
             return "fullText";
-        } catch (NullPointerException nullPointerException){
+        } catch (NullPointerException nullPointerException) {
             return "redirect:/";
         }
 
     }
 
-//    @GetMapping("/{postId}/edit")
-//    public String editPost(@PathVariable String postId,@RequestParam String header, @RequestParam String text, Model model){
-//        Post post = postService.getById(Long.parseLong(postId));
-//    }
+    @GetMapping("/{postId}/edit")
+    public String editPost(@PathVariable String postId, Model model) {
+        try {
+            Post onePost = postService.getById(Long.parseLong(postId));
+            model.addAttribute("onePost", onePost);
+            return "editPost";
+        } catch (NullPointerException nullPointerException) {
+            return "redirect:/";
+        }
+    }
+
+    // структура верна?
+    @PostMapping("/{postId}/edit")
+    public String editPost(@PathVariable String postId, @RequestParam String header, @RequestParam String text, Model model) {
+        Post post = postService.getById(Long.parseLong(postId));
+        post.setHeader(header);
+        post.setText(text);
+        postService.updatePost(post);
+        return "redirect:/post/{postId}";
+    }
+
+    // тот же вопр про структуру
+    @PostMapping("/{postId}/remove")
+    public String removePost(@PathVariable String postId, Model model) {
+        Post post = postService.getById(Long.parseLong(postId));
+        postService.removePost(post);
+        return "redirect:/";
+    }
 }
+
+
