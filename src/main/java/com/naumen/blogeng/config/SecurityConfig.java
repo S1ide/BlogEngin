@@ -44,10 +44,9 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/registration/**").permitAll()
-                                .requestMatchers("/index").hasRole("USER")
-                                .requestMatchers("/users").hasRole("ADMIN")
                                 .requestMatchers("/").hasRole("USER")
-
+                                .requestMatchers("/post/**").hasRole("USER")
+                                .requestMatchers("/users").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -76,7 +75,8 @@ public class SecurityConfig {
         BlogUser admin = new BlogUser();
         admin.setEmail("admin@admin.ru");
         admin.setUsername("admin admin");
-        admin.setPassword(passwordEncoder().encode("admin"));
+        String s = passwordEncoder().encode("admin");
+        admin.setPassword(s);
         admin.setRoles(List.of(adminRole, userRole));
         blogUserRepository.save(admin);
     }

@@ -22,10 +22,6 @@ public class AuthController {
         this.blogUserService = blogUserService;
     }
 
-    @GetMapping("/main")
-    public String returnMainPage(){
-        return "main";
-    }
     @GetMapping("/login")
     public String login(){
         return "login";
