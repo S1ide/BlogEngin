@@ -30,10 +30,12 @@
     <div class="alert alert-info mt-2">
       <p th:text="${onePost.getBlogUser().getUsername()}"/>
       <p th:text="${onePost.text}"/>
+      <div th:if="${currentUser.getId()==onePost.getBlogUser().getId()}">
       <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
-      <form th:action="@{/post/{id}/remove(id=${onePost.id})}"  method="post">
+        <form th:action="@{/post/{id}/remove(id=${onePost.id})}"  method="post">
         <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
       </form>
+    </div>
       <p th:text="${onePost.date}"/>
     </div>
 
@@ -48,8 +50,12 @@
     <p th:text="${comment.getblogUser().getUsername()}"/>
     <p th:text="${comment.textComment}"/>
     <p th:text="${comment.date}"/>
-    <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}" th:text="'Редактировать'" class="btn btn-warning"></a>
-    <a th:href="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}" th:text="'Удалить'" class="btn btn-warning"></a>
+    <div th:if="${currentUser.getId()==comment.getblogUser().getId()}">
+    <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}" th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
+    <form th:action="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}"  method="post">
+      <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
+    </form>
+    </div>
   </div>
 
 
