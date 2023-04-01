@@ -22,7 +22,7 @@ public class Post {
     @JoinColumn(name = "blog_user_id")
     private BlogUser blogUser;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     protected Post() {
