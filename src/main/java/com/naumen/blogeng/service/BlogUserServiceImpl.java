@@ -5,6 +5,7 @@ import com.naumen.blogeng.model.BlogUser;
 import com.naumen.blogeng.model.Role;
 import com.naumen.blogeng.repository.BlogUserRepository;
 import com.naumen.blogeng.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,8 @@ public class BlogUserServiceImpl implements BlogUserService{
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public BlogUserServiceImpl(BlogUserRepository blogUserRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder ) {
+    @Autowired
+    public BlogUserServiceImpl(BlogUserRepository blogUserRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.blogUserRepository = blogUserRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -31,7 +33,7 @@ public class BlogUserServiceImpl implements BlogUserService{
         user.setUsername(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(List.of(new Role("ROLE_USER")));
+        user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
         blogUserRepository.save(user);
     }
     @Override

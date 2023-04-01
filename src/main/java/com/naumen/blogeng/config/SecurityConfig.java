@@ -51,7 +51,19 @@ public class SecurityConfig {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/")
+                                .successHandler((request, response, authentication) -> {
+                                    String roleName = authentication.getAuthorities().stream()
+                                            .findFirst()
+                                            .orElseThrow(() -> new IllegalStateException("User has no roles"))
+                                            .getAuthority();
+                                    Role role = roleRepository.findByName(roleName);
+                                    if (role.getName().equals("ROLE_ADMIN")){
+                                        response.sendRedirect("/users");
+                                    } else {
+                                        response.sendRedirect("/");
+                                    }
+                                })
+//                                .defaultSuccessUrl("/")
                                 .permitAll()
                 ).logout(
                         logout -> logout
@@ -72,6 +84,8 @@ public class SecurityConfig {
     private void initAdmin() {
         Role adminRole = new Role("ROLE_ADMIN");
         Role userRole = new Role("ROLE_USER");
+        roleRepository.save(adminRole);
+        roleRepository.save(userRole);
         BlogUser admin = new BlogUser();
         admin.setEmail("admin@admin.ru");
         admin.setUsername("admin admin");
