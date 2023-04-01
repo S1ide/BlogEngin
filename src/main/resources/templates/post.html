@@ -41,7 +41,7 @@
 
   <div>
     <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post">
-      <input type="text" name="text" placeholder="Напишите свой комментарий" class="form-control"><br>
+      <input type="text" name="text" placeholder="Напишите свой комментарий" class="form-control" ><br>
       <button type="submit" class="btn btn-success" th:text="'Опубликовать'"></button>
     </form>
   </div>

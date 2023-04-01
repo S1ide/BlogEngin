@@ -18,8 +18,7 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void addPost(String header, String text, BlogUser blogUser) {
-        Post post = new Post(header, text, blogUser);
+    public void addPost(Post post) {
         postRepository.save(post);
     }
     public Post getById(long id) {

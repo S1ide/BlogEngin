@@ -44,14 +44,14 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/registration/**").permitAll()
-                                .requestMatchers("/").hasRole("USER")
+                                .requestMatchers("/").authenticated()
                                 .requestMatchers("/post/**").hasRole("USER")
                                 .requestMatchers("/users").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
+                                .defaultSuccessUrl("/")
                                 .permitAll()
                 ).logout(
                         logout -> logout
