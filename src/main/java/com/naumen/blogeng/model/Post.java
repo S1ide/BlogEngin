@@ -25,10 +25,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    protected Post() {
-    }
-
-    ;
+    protected Post() {};
 
     public Post(@NonNull String header, @NonNull String text, @NonNull BlogUser blogUser) {
         this.header = header;

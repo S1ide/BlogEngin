@@ -14,13 +14,13 @@ public class DtoBlogUser {
     private String firstName;
     @NotEmpty
     private String lastName;
-    @NotEmpty(message = "Password should not be empty")
+    @NotEmpty(message = "не должно быть пустым")
     private String password;
   //  @NotEmpty
     private List<Post> posts;
    // @NotEmpty
     private List<Comment> comments;
-    @NotEmpty(message = "Email should not be empty")
+    @NotEmpty(message = "не должно быть пустым")
     @Email
     private String email;
     private List<Role> roles;

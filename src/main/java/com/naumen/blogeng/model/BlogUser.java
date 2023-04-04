@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 @Table(name="blog_users")
 @Entity
@@ -32,8 +33,6 @@ public class BlogUser {
             joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles;
-
-    //protected BlogUser() {}
 
     public BlogUser() {}
 
