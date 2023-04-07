@@ -7,8 +7,8 @@ import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
 
 @Service
 public class PostService {
@@ -18,7 +18,8 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void addPost(Post post) {
+    public void addPost(String header, String text, BlogUser blogUser) {
+        Post post = new Post(header, text, blogUser);
         postRepository.save(post);
     }
     public Post getById(long id) {

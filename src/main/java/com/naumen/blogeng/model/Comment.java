@@ -1,6 +1,7 @@
 package com.naumen.blogeng.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
 
 import java.text.DateFormat;
@@ -13,7 +14,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NonNull
+    @NotEmpty(message = "Заполните поле комментарий")
     private String textComment;
     private Date date;
 

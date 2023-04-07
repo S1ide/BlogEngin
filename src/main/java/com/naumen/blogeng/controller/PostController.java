@@ -1,5 +1,6 @@
 package com.naumen.blogeng.controller;
 
+import com.naumen.blogeng.dto.DtoBlogUser;
 import com.naumen.blogeng.model.BlogUser;
 import com.naumen.blogeng.model.Comment;
 import com.naumen.blogeng.model.Post;
@@ -12,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -35,17 +38,22 @@ public class PostController {
     //TODO получить юзера из контекста,
     //Добавлен Model model
     @PostMapping
-    public String addPost(@RequestParam String header, @RequestParam String text, Model model) {
-        Post post = new Post(header, text, blogUserService.findUserByEmail(getCurrentUserEmail()));
-        postService.addPost(post);
-        return "redirect:/";
-    }
+    public String addPost(@Valid@RequestParam String header,@Valid@RequestParam String text, @ModelAttribute("post") Post post, BindingResult result, Model model) {
+        if (result.hasErrors()){
+            model.addAttribute("post", post);
+            return "redirect:/";
+        }
+            postService.addPost(header, text, blogUserService.findUserByEmail(getCurrentUserEmail()));
+            return "redirect:/";
+        }
+
+
 
     //TODO получить юзера из контекста
 
 
     @PostMapping("/{postId}/comment")
-    public String addComment(@RequestParam String text, @PathVariable String postId, Model model) {
+    public String addComment(@RequestParam String text, @PathVariable String postId,Model model) {
         commentService.addComment(text, postId, blogUserService.findUserByEmail(getCurrentUserEmail()));
         return "redirect:/post/{postId}";
     }
@@ -142,7 +150,6 @@ public class PostController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
-
 
 }
 

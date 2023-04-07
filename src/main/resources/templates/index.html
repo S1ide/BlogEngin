@@ -26,30 +26,44 @@
 </nav>
 
 <div class="container mt-5 mb-5">
-    <h1>Welcome to my Blog</h1>
     <h2>Добавить статью</h2>
-    <div>
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">Все поля должны быть заполнены</div>
+    </div>
         <form action="/post" method="post">
-            <input type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"><br>
+            <input type="text" name="header" placeholder="Введите заголовок статьи" class="form-control" /><br>
             <textarea name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
-          <button type="submit" class="btn btn-success">Опубликовать</button>
+            <button type="submit" class="btn btn-dark">Опубликовать</button>
         </form>
     </div>
-</div>
-
-
-<div class="container mt-5 mb-5">
-    <div th:each="post : ${posts}" class="alert alert-info mt-2 ">
-        <p th:text="${post.blogUser.getUsername()}">
-        <h3 th:text="${post.header}"></h3>
-        <a th:href="@{/post/{id}(id=${post.id})}" th:text="'Читать полностью'" class="btn btn-warning"></a>
-        <p th:text="${post.date}">
     </div>
 </div>
 
-
-
-
+<section>
+    <div class="container my-5 py-5 text-dark">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-11 col-lg-9 col-xl-7">
+                <div th:each="post : ${posts}" class="d-flex flex-start mb-4">
+                    <div class="card w-100">
+                        <div class="card-body p-4">
+                            <img class="rounded-circle shadow-1-strong me-3"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar" width="65"
+                                 height="65" />
+                            <h3 th:text="${post.getBlogUser().getUsername()}"/>
+                            <h1 th:text="${post.header}"></h1>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a th:href="@{/post/{id}(id=${post.id})}" class="btn btn-dark" th:text="'Читать полностью'"></a>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2">
+                                <div th:text="${#dates.format(post.date, 'd MMMM yyyy HH:mm')}" ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>

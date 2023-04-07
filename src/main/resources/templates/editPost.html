@@ -26,13 +26,12 @@
 </nav>
 
 <div class="container mt-5 mb-5">
-    <h1>Welcome to my Blog</h1>
     <h2>Редактировать статью</h2>
     <div >
         <form method="post">
             <input type="text" th:value="${onePost.header}" name="header" placeholder="Введите заголовок статьи" class="form-control"><br>
             <textarea name="text" placeholder="Введите текст статьи" class="form-control" th:text="${onePost.text}" /><br>
-            <button type="submit" class="btn btn-success">Обновить</button>
+            <button type="submit" class="btn btn-dark btn-sm">Обновить</button>
         </form>
     </div>
 </div>

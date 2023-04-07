@@ -1,6 +1,8 @@
 package com.naumen.blogeng.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.lang.NonNull;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,9 +13,9 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @NonNull
+    @NotEmpty(message = "Header cannot be empty.")
     private String header;
-    @NonNull
+    @NotEmpty(message = "Text cannot be empty.")
     private String text;
 
     private Date date;
@@ -28,7 +30,6 @@ public class Post {
     protected Post() {
     }
 
-    ;
 
     public Post(@NonNull String header, @NonNull String text, @NonNull BlogUser blogUser) {
         this.header = header;
