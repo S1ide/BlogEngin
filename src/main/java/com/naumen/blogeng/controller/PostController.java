@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/post")
 public class PostController {
 
+
     private final PostService postService;
     private final CommentService commentService;
     private final UserService userService;
@@ -73,9 +74,11 @@ public class PostController {
             post.setHeader(header);
             post.setText(text);
             postService.updatePost(post);
+            return "redirect:/post/{postId}";
         }
         return "redirect:/post/{postId}";
     }
+
 
     @PostMapping("/{postId}/remove")
     public String removePost(@PathVariable String postId, Model model) {
@@ -83,6 +86,7 @@ public class PostController {
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
         if (currentUser.getId() == post.getUser().getId() || isAdmin()) {
             postService.removePost(post);
+            return "redirect:/";
         }
         return "redirect:/";
     }
