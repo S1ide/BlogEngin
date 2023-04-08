@@ -1,64 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>Блог</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Блог</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/}">Блог</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Выход</a>
-        </li>
-      </ul>
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Блог</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" sec:authorize="isAuthenticated()">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Выход</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent2" sec:authorize="!isAuthenticated()">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/login}">Вход</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 
 <div class="container mt-5 mb-5">
-  <h1 th:text="${onePost.header}"></h1>
+    <h1 th:text="${onePost.header}"></h1>
     <div class="alert alert-info mt-2">
-      <p th:text="${onePost.getUser().getUsername()}"/>
-      <p th:text="${onePost.text}"/>
-      <div th:if="${currentUser.getId()==onePost.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
-      <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
-        <form th:action="@{/post/{id}/remove(id=${onePost.id})}"  method="post">
-        <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
-      </form>
+        <p th:text="${onePost.getUser().getUsername()}"/>
+        <p th:text="${onePost.text}"/>
+        <div sec:authorize="isAuthenticated()">
+            <div th:if="${currentUser.getId()==onePost.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
+                <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
+                <form th:action="@{/post/{id}/remove(id=${onePost.id})}" method="post">
+                    <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
+                </form>
+            </div>
+        </div>
+        <p th:text="${onePost.date}"/>
     </div>
-      <p th:text="${onePost.date}"/>
+
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post">
+            <input type="text" name="text" placeholder="Напишите свой комментарий" class="form-control"><br>
+            <button type="submit" class="btn btn-success" th:text="'Опубликовать'"></button>
+        </form>
     </div>
 
-  <div>
-    <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post">
-      <input type="text" name="text" placeholder="Напишите свой комментарий" class="form-control" ><br>
-      <button type="submit" class="btn btn-success" th:text="'Опубликовать'"></button>
-    </form>
-  </div>
+    <div th:each="comment : ${comments}" class="alert alert-info mt-2">
+        <p th:text="${comment.getUser().getUsername()}"/>
+        <p th:text="${comment.textComment}"/>
+        <p th:text="${comment.date}"/>
+        <div sec:authorize="isAuthenticated()">
+            <div th:if="${currentUser.getId()==comment.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
+                <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}"
+                   th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
+                <form th:action="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}"
+                      method="post">
+                    <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
+                </form>
+            </div>
+            <div/>
+        </div>
 
-  <div th:each="comment : ${comments}" class="alert alert-info mt-2">
-    <p th:text="${comment.getUser().getUsername()}"/>
-    <p th:text="${comment.textComment}"/>
-    <p th:text="${comment.date}"/>
-    <div th:if="${currentUser.getId()==comment.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
-    <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}" th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
-    <form th:action="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}"  method="post">
-      <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
-    </form>
+
     </div>
-  </div>
-
-
-</div>
 </body>
 </html>

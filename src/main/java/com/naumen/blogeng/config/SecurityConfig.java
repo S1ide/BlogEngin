@@ -44,7 +44,9 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/registration/**").permitAll()
-                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/post/*").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/post/*/comment/*").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/post/**").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                 ).formLogin(
