@@ -66,7 +66,7 @@
                                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
                                  width="65"
                                  height="65"/>
-                            <h3 th:text="${post.getBlogUser().getUsername()}"/>
+                            <h3 th:text="${post.user.username}"/>
                             <h1 th:text="${post.header}"></h1>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <a th:href="@{/post/{id}(id=${post.id})}" class="btn btn-dark"
@@ -82,28 +82,5 @@
         </div>
     </div>
 </section>
-    <div>
-        <form action="/post" method="post">
-            <input type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"><br>
-            <textarea name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
-          <button type="submit" class="btn btn-success">Опубликовать</button>
-        </form>
-    </div>
-</div>
-
-
-<div class="container mt-5 mb-5">
-    <div th:each="post : ${posts}" class="alert alert-info mt-2 ">
-        <p th:text="${post.user.getUsername()}">
-        <h3 th:text="${post.header}"></h3>
-        <a th:href="@{/post/{id}(id=${post.id})}" th:text="'Читать полностью'" class="btn btn-warning"></a>
-        <p th:text="${post.date}">
-    </div>
-</div>
-
-
-
-
-
 </body>
 </html>

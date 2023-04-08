@@ -31,8 +31,7 @@ public class PostController {
 
     @PostMapping
     public String addPost(@RequestParam String header, @RequestParam String text, Model model) {
-        Post post = new Post(header, text, userService.findUserByEmail(getCurrentUserEmail()));
-        postService.addPost(post);
+        postService.addPost(header, text, userService.findUserByEmail(getCurrentUserEmail()));
         return "redirect:/";
     }
 

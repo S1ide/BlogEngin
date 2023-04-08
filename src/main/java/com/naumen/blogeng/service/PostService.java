@@ -1,7 +1,7 @@
 package com.naumen.blogeng.service;
 
-
 import com.naumen.blogeng.model.Post;
+import com.naumen.blogeng.model.User;
 import com.naumen.blogeng.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,8 +15,8 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public void addPost(String header, String text, BlogUser blogUser) {
-        Post post = new Post(header, text, blogUser);
+    public void addPost(String header, String text, User user) {
+        Post post = new Post(header, text, user);
         postRepository.save(post);
     }
 
