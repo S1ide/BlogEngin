@@ -2,7 +2,6 @@ package com.naumen.blogeng.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.lang.NonNull;
 import java.util.ArrayList;
 import java.util.Date;

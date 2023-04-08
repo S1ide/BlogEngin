@@ -9,6 +9,17 @@
         crossorigin="anonymous">
 </head>
 <body>
+
+<script>
+  function check() {
+    const comment = document.getElementById('commentId').value;
+    if (comment === '') {
+      alert('Введите комментарий')
+      return false;
+    }
+  }
+</script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/}">Блог</a>
@@ -53,9 +64,9 @@
                   <div class="">
                     <h5>Add a comment</h5>
                     <div class="form-outline d-flex justify-content-between mt-3">
-                      <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post">
-                        <textarea class="form-control" th:type="text" th:name="text" id="textAreaExample" rows="4"></textarea>
-                        <label class="form-label" for="textAreaExample">What is your view?</label>
+                      <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post" onsubmit="return check()">
+                        <textarea id="commentId" class="form-control" th:type="text" th:name="text"  rows="4"></textarea>
+                        <label class="form-label" for="commentId">What is your view?</label>
                         <button type="submit" class="btn btn-dark btn-sm"  th:text="'Опубликовать'"></button>
                       </form>
                     </div>
@@ -84,7 +95,5 @@
       </div>
     </div>
   </section>
-
-</div>
 </body>
 </html>

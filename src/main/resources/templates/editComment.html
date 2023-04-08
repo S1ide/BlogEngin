@@ -9,6 +9,15 @@
         crossorigin="anonymous">
 </head>
 <body>
+<script>
+  function check() {
+    const comment = document.getElementById('commentId').value;
+    if (comment === '') {
+      alert('Введите комментарий')
+      return false;
+    }
+  }
+</script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/}">Блог</a>
@@ -28,8 +37,8 @@
 <div class="container mt-5 mb-5">
   <h2>Редактировать комментарий</h2>
   <div >
-    <form method="post">
-      <input type="text" th:value="${oneComment.textComment}" name="textComment" placeholder="Введите комментарий" class="form-control"><br>
+    <form method="post" onsubmit="return check()">
+      <input  id="commentId" type="text" th:value="${oneComment.textComment}" name="textComment" placeholder="Введите комментарий" class="form-control"><br>
       <button type="submit" class="btn btn-dark btn-sm">Обновить</button>
     </form>
   </div>

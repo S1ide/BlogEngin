@@ -9,10 +9,26 @@
           crossorigin="anonymous">
 </head>
 <body>
+<script>
+    function check() {
+        const header = document.getElementById('header').value;
+        const text = document.getElementById('text').value;
+        if (header === '') {
+            alert('Введите заголовок')
+            return false;
+        }
+        if (text === '') {
+            alert('Введите текст')
+            return false;
+        }
+    }
+</script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">Блог</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -30,15 +46,12 @@
     <div th:if="${param.error}">
         <div class="alert alert-danger">Все поля должны быть заполнены</div>
     </div>
-        <form action="/post" method="post">
-            <input type="text" name="header" placeholder="Введите заголовок статьи" class="form-control" /><br>
-            <textarea name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
-            <button type="submit" class="btn btn-dark">Опубликовать</button>
-        </form>
-    </div>
-    </div>
+    <form action="/post" method="post" onsubmit="return check()" >
+        <input id="header" type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"/><br>
+        <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
+        <button type="submit" class="btn btn-dark">Опубликовать</button>
+    </form>
 </div>
-
 <section>
     <div class="container my-5 py-5 text-dark">
         <div class="row d-flex justify-content-center">
@@ -47,15 +60,17 @@
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <img class="rounded-circle shadow-1-strong me-3"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar" width="65"
-                                 height="65" />
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
+                                 width="65"
+                                 height="65"/>
                             <h3 th:text="${post.getBlogUser().getUsername()}"/>
                             <h1 th:text="${post.header}"></h1>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a th:href="@{/post/{id}(id=${post.id})}" class="btn btn-dark" th:text="'Читать полностью'"></a>
+                                <a th:href="@{/post/{id}(id=${post.id})}" class="btn btn-dark"
+                                   th:text="'Читать полностью'"></a>
                             </div>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2">
-                                <div th:text="${#dates.format(post.date, 'd MMMM yyyy HH:mm')}" ></div>
+                                <div th:text="${#dates.format(post.date, 'd MMMM yyyy HH:mm')}"></div>
                             </div>
                         </div>
                     </div>
