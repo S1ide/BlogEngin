@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
-public class DtoBlogUser {
+public class DtoUser {
     private long id;
     @NotEmpty
     private String firstName;
@@ -16,23 +16,21 @@ public class DtoBlogUser {
     private String lastName;
     @NotEmpty(message = "не должно быть пустым")
     private String password;
-  //  @NotEmpty
     private List<Post> posts;
-   // @NotEmpty
     private List<Comment> comments;
     @NotEmpty(message = "не должно быть пустым")
     @Email
     private String email;
     private List<Role> roles;
 
-    public DtoBlogUser(String firstName, String lastName, String password, String email) {
+    public DtoUser(String firstName, String lastName, String password, String email) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
     }
 
-    public DtoBlogUser(){}
+    public DtoUser(){}
 
     public long getId() {
         return id;

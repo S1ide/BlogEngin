@@ -1,10 +1,10 @@
 package com.naumen.blogeng.repository;
 
-import com.naumen.blogeng.model.BlogUser;
+import com.naumen.blogeng.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BlogUserRepository extends JpaRepository<BlogUser, Long> {
-    BlogUser findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
 }

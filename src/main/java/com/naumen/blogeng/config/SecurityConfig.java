@@ -1,8 +1,8 @@
 package com.naumen.blogeng.config;
 
-import com.naumen.blogeng.model.BlogUser;
+import com.naumen.blogeng.model.User;
 import com.naumen.blogeng.model.Role;
-import com.naumen.blogeng.repository.BlogUserRepository;
+import com.naumen.blogeng.repository.UserRepository;
 import com.naumen.blogeng.repository.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,13 +24,13 @@ import java.util.List;
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final RoleRepository roleRepository;
-    private final BlogUserRepository blogUserRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public SecurityConfig(RoleRepository roleRepository, BlogUserRepository blogUserRepository, UserDetailsService userDetailsService) {
+    public SecurityConfig(RoleRepository roleRepository, UserRepository userRepository, UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
         this.roleRepository = roleRepository;
-        this.blogUserRepository = blogUserRepository;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -86,12 +85,12 @@ public class SecurityConfig {
         Role userRole = new Role("ROLE_USER");
         roleRepository.save(adminRole);
         roleRepository.save(userRole);
-        BlogUser admin = new BlogUser();
+        User admin = new User();
         admin.setEmail("admin@admin.ru");
         admin.setUsername("admin admin");
         String s = passwordEncoder().encode("admin");
         admin.setPassword(s);
         admin.setRoles(List.of(adminRole, userRole));
-        blogUserRepository.save(admin);
+        userRepository.save(admin);
     }
 }

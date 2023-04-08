@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-@Table(name="blog_users")
+@Table(name="users")
 @Entity
 //TODO рефактор кода: убрать ненужные приставки в нейминге;
-public class BlogUser {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -34,9 +33,9 @@ public class BlogUser {
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles;
 
-    public BlogUser() {}
+    public User() {}
 
-    public BlogUser(@NonNull String username, @NonNull String password, @NonNull String email) {
+    public User(@NonNull String username, @NonNull String password, @NonNull String email) {
         this.username = username;
         this.password = password;
         this.email = email;

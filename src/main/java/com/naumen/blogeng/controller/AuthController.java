@@ -1,9 +1,8 @@
 package com.naumen.blogeng.controller;
 
-import com.naumen.blogeng.dto.DtoBlogUser;
-import com.naumen.blogeng.model.BlogUser;
-import com.naumen.blogeng.service.BlogUserService;
-import com.naumen.blogeng.service.BlogUserServiceImpl;
+import com.naumen.blogeng.dto.DtoUser;
+import com.naumen.blogeng.model.User;
+import com.naumen.blogeng.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,46 +15,41 @@ import java.util.List;
 
 @Controller
 public class AuthController {
-    private BlogUserService blogUserService;
+    private final UserService userService;
 
-    public AuthController(BlogUserService blogUserService) {
-        this.blogUserService = blogUserService;
+    public AuthController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @GetMapping("/registration")
-    public String showRegistrationForm(Model model){
-        DtoBlogUser user = new DtoBlogUser();
+    public String showRegistrationForm(Model model) {
+        DtoUser user = new DtoUser();
         model.addAttribute("user", user);
         return "registration";
     }
 
     @PostMapping("/registration/save")
-    public String registration(@Valid @ModelAttribute("user") DtoBlogUser dtoBlogUser, BindingResult result, Model model){
-
-        BlogUser user = blogUserService.findUserByEmail(dtoBlogUser.getEmail());
-
-        if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()){
+    public String registration(@Valid @ModelAttribute("user") DtoUser dtoUser, BindingResult result, Model model) {
+        User user = userService.findUserByEmail(dtoUser.getEmail());
+        if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
             result.rejectValue("email", null, "There is already an account registered with the same email");
         }
-
-        if(result.hasErrors()){
-            model.addAttribute("user", dtoBlogUser);
+        if (result.hasErrors()) {
+            model.addAttribute("user", dtoUser);
             return "/registration";
         }
-
-        blogUserService.saveUser(dtoBlogUser);
+        userService.saveUser(dtoUser);
         return "redirect:/login";
-
     }
 
     @GetMapping("/users")
-    public String users(Model model){
-        List<DtoBlogUser> users = blogUserService.findAllUsers();
+    public String users(Model model) {
+        List<DtoUser> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "users";
     }

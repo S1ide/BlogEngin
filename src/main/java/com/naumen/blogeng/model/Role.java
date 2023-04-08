@@ -15,7 +15,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private List<BlogUser> users;
+    private List<User> users;
 
     public Role(@NonNull String name) {
         this.name = name;
@@ -32,7 +32,7 @@ public class Role {
         return name;
     }
 
-    public List<BlogUser> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
@@ -44,7 +44,7 @@ public class Role {
         this.name = name;
     }
 
-    public void setUsers(List<BlogUser> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 }

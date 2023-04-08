@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = {"com.naumen.blogeng"})
 public class BlogEngApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BlogEngApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BlogEngApplication.class, args);
+    }
 
 }

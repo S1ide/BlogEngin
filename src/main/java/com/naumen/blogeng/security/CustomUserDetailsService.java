@@ -1,16 +1,13 @@
 package com.naumen.blogeng.security;
 
-import com.naumen.blogeng.model.BlogUser;
+import com.naumen.blogeng.model.User;
 import com.naumen.blogeng.model.Role;
-import com.naumen.blogeng.repository.BlogUserRepository;
+import com.naumen.blogeng.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -19,31 +16,28 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private BlogUserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public CustomUserDetailsService(BlogUserRepository userRepository) {
+    public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        BlogUser user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
 
         if (user != null) {
-            return new User(user.getEmail(),
+            return new org.springframework.security.core.userdetails.User(user.getEmail(),
                     user.getPassword(),
                     mapRolesToAuthorities(user.getRoles()));
-        }else{
+        } else {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
     }
 
-    private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        Collection < ? extends GrantedAuthority> mapRoles = roles.stream()
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-        return mapRoles;
     }
-
-
 }

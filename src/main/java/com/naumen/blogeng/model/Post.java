@@ -15,22 +15,21 @@ public class Post {
     private String header;
     @NonNull
     private String text;
-
     private Date date;
 
     @ManyToOne // Добавила еще зависимость с пользователем
-    @JoinColumn(name = "blog_user_id")
-    private BlogUser blogUser;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     protected Post() {};
 
-    public Post(@NonNull String header, @NonNull String text, @NonNull BlogUser blogUser) {
+    public Post(@NonNull String header, @NonNull String text, @NonNull User user) {
         this.header = header;
         this.text = text;
-        this.blogUser = blogUser;
+        this.user = user;
         this.date = new Date();
     }
 
@@ -46,7 +45,6 @@ public class Post {
         this.text = text;
     }
 
-
     @NonNull
     public String getHeader() {
         return header;
@@ -61,13 +59,11 @@ public class Post {
         return date;
     }
 
-    public BlogUser getBlogUser() {
-        return blogUser;
+    public User getUser() {
+        return user;
     }
 
     public long getId() {
         return id;
     }
-
-
 }

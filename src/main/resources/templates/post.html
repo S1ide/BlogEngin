@@ -28,9 +28,9 @@
 <div class="container mt-5 mb-5">
   <h1 th:text="${onePost.header}"></h1>
     <div class="alert alert-info mt-2">
-      <p th:text="${onePost.getBlogUser().getUsername()}"/>
+      <p th:text="${onePost.getUser().getUsername()}"/>
       <p th:text="${onePost.text}"/>
-      <div th:if="${currentUser.getId()==onePost.getBlogUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
+      <div th:if="${currentUser.getId()==onePost.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
       <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
         <form th:action="@{/post/{id}/remove(id=${onePost.id})}"  method="post">
         <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
@@ -47,10 +47,10 @@
   </div>
 
   <div th:each="comment : ${comments}" class="alert alert-info mt-2">
-    <p th:text="${comment.getblogUser().getUsername()}"/>
+    <p th:text="${comment.getUser().getUsername()}"/>
     <p th:text="${comment.textComment}"/>
     <p th:text="${comment.date}"/>
-    <div th:if="${currentUser.getId()==comment.getblogUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
+    <div th:if="${currentUser.getId()==comment.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
     <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}" th:text="'Редактировать'" class="btn btn-warning"></a><br><br>
     <form th:action="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}"  method="post">
       <button type="submit" class="btn btn-warning" th:text="'Удалить'"></button>
