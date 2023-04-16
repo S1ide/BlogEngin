@@ -96,4 +96,6 @@ public class SecurityConfig {
         admin.setRoles(List.of(adminRole, userRole));
         userRepository.save(admin);
     }
+
+
 }

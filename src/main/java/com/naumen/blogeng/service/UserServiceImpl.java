@@ -46,6 +46,10 @@ public class UserServiceImpl implements UserService {
                 .map((user) -> mapToUseDto(user))
                 .collect(Collectors.toList());
     }
+    @Override
+    public void remove(User user){
+        userRepository.delete(user);
+    }
 
     public DtoUser mapToUseDto(User user) {
         DtoUser dtoUser = new DtoUser();

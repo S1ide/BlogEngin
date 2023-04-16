@@ -2,23 +2,25 @@ package com.naumen.blogeng.controller;
 
 import com.naumen.blogeng.dto.DtoUser;
 import com.naumen.blogeng.model.User;
+import com.naumen.blogeng.repository.UserRepository;
 import com.naumen.blogeng.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 public class AuthController {
     private final UserService userService;
+    private final UserRepository userRepository;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService,
+                          UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/login")
@@ -53,6 +55,11 @@ public class AuthController {
         model.addAttribute("users", users);
         return "users";
     }
-
+    //TODO разобраться с отображением id-значений пользователей; нет связи с базой;
+    @DeleteMapping("/users")
+    public String deleteUser(@RequestParam("email") String email){
+        userService.remove(userRepository.findByEmail(email));
+        return "redirect:/users";
+    }
 
 }
