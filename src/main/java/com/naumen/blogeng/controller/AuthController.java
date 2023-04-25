@@ -15,12 +15,9 @@ import java.util.List;
 @Controller
 public class AuthController {
     private final UserService userService;
-    private final UserRepository userRepository;
 
-    public AuthController(UserService userService,
-                          UserRepository userRepository) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/login")
@@ -58,7 +55,7 @@ public class AuthController {
     //TODO разобраться с отображением id-значений пользователей; нет связи с базой;
     @DeleteMapping("/users")
     public String deleteUser(@RequestParam("email") String email){
-        userService.remove(userRepository.findByEmail(email));
+        userService.remove(email);
         return "redirect:/users";
     }
 

@@ -47,8 +47,8 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
     @Override
-    public void remove(User user){
-        userRepository.delete(user);
+    public void remove(String email){
+        userRepository.delete(userRepository.findByEmail(email));
     }
 
     public DtoUser mapToUseDto(User user) {
@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
         dtoUser.setFirstName(str[0]);
         dtoUser.setLastName(str[1]);
         dtoUser.setEmail(user.getEmail());
+        dtoUser.setId(user.getId());
         return dtoUser;
     }
 

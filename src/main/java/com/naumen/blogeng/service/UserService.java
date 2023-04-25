@@ -10,5 +10,5 @@ public interface UserService {
     void saveUser(DtoUser userDto);
     User findUserByEmail(String email);
     List<DtoUser> findAllUsers();
-    void remove(User user);
+    void remove(String email);
 }
