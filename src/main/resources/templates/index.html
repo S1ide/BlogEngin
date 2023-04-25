@@ -49,7 +49,7 @@
 </nav>
 <div class="container mt-5 mb-5" sec:authorize="isAuthenticated()">
     <h2>Добавить статью</h2>
-    <form action="/post" method="post" onsubmit="return check()" >
+    <form action="/post" method="post" onsubmit="return check()">
         <input id="header" type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"/><br>
         <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
         <button type="submit" class="btn btn-dark">Опубликовать</button>
@@ -58,23 +58,21 @@
 <section>
     <div class="container my-5 py-5 text-dark">
         <div class="row d-flex justify-content-center">
-            <div class="col-md-11 col-lg-9 col-xl-7">
-                <div th:each="post : ${posts}" class="d-flex flex-start mb-4">
-                    <div class="card w-100">
-                        <div class="card-body p-4">
-                            <img class="rounded-circle shadow-1-strong me-3"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
-                                 width="65"
-                                 height="65"/>
-                            <h3 th:text="${post.user.username}"/>
-                            <h1 th:text="${post.header}"></h1>
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a th:href="@{/post/{id}(id=${post.id})}" class="btn btn-dark"
-                                   th:text="'Читать полностью'"></a>
-                            </div>
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2">
-                                <div th:text="${#dates.format(post.date, 'd MMMM yyyy HH:mm')}"></div>
-                            </div>
+            <div th:each="post : ${posts}" class="d-flex flex-start mb-4">
+                <div class="card w-100">
+                    <div class="card-body p-4">
+                        <img class="rounded-circle shadow-1-strong me-3"
+                             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
+                             width="65"
+                             height="65"/>
+                        <h3 th:text="${post.user.username}"/>
+                        <h1 th:text="${post.header}"></h1>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="@{/post/{id}(id=${post.id})}" class="btn btn-dark"
+                               th:text="'Читать полностью'"></a>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2">
+                            <div th:text="${#dates.format(post.date, 'd MMMM yyyy HH:mm')}"></div>
                         </div>
                     </div>
                 </div>
