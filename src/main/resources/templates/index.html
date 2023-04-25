@@ -49,9 +49,10 @@
 </nav>
 <div class="container mt-5 mb-5" sec:authorize="isAuthenticated()">
     <h2>Добавить статью</h2>
-    <form action="/post" method="post" onsubmit="return check()" >
+    <form action="/post" method="post" onsubmit="return check()"  enctype="multipart/form-data">
         <input id="header" type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"/><br>
         <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
+        <input type="file" name="image" accept="image/*" class="form-control-file">
         <button type="submit" class="btn btn-dark">Опубликовать</button>
     </form>
 </div>

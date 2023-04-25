@@ -6,12 +6,27 @@ import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.service.UserService;
 import com.naumen.blogeng.service.CommentService;
 import com.naumen.blogeng.service.PostService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/post")
@@ -22,6 +37,7 @@ public class PostController {
     private final CommentService commentService;
     private final UserService userService;
 
+
     @Autowired
     public PostController(PostService postService, CommentService commentService, UserService userService) {
         this.postService = postService;
@@ -30,8 +46,12 @@ public class PostController {
     }
 
     @PostMapping
-    public String addPost(@RequestParam String header, @RequestParam String text, Model model) {
-        postService.addPost(header, text, userService.findUserByEmail(getCurrentUserEmail()));
+    public String addPost(@RequestParam String header, @RequestParam String text, @RequestParam(name ="image", required = false) MultipartFile file, Model model) throws IOException {
+        if(!file.isEmpty()) {
+            postService.addPostWithFile(header, text, userService.findUserByEmail(getCurrentUserEmail()), file);
+        } else {
+            postService.addPost(header, text, userService.findUserByEmail(getCurrentUserEmail()));
+        }
         return "redirect:/";
     }
 
@@ -54,8 +74,15 @@ public class PostController {
         } catch (NullPointerException nullPointerException) {
             return "redirect:/";
         }
-
     }
+
+    @GetMapping(value ="/resources/static/")
+    public @ResponseBody byte[] getImage() throws IOException{
+        InputStream in = new FileInputStream("/resources/static/test.png");
+        return IOUtils.toByteArray(in);
+    }
+
+
 
     @GetMapping("/{postId}/edit")
     public String editPost(@PathVariable String postId, Model model) {
@@ -66,7 +93,7 @@ public class PostController {
 
 
     @PostMapping("/{postId}/edit")
-    public String editPost(@PathVariable String postId, @RequestParam String header, @RequestParam String text, Model model) {
+    public String editPost(@PathVariable String postId, @RequestParam String header, @RequestParam String text) {
         Post post = postService.getById(Long.parseLong(postId));
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
         if (currentUser.getId() == post.getUser().getId() || isAdmin()) {

@@ -57,6 +57,7 @@
                             <h2 th:text="${onePost.header}"></h2>
                             <h3 th:text="${onePost.user.username}"/>
                             <p th:text="${#dates.format(onePost.date, 'd MMMM yyyy HH:mm')}"></p>
+                            <img th:src="@{${onePost.path}}"/>
                             <p th:text="${onePost.text}"/>
                             <div sec:authorize="isAuthenticated()">
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">

@@ -3,6 +3,9 @@ package com.naumen.blogeng.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
+
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +21,8 @@ public class Post {
     private String text;
     private Date date;
 
+    private String path;
+
     @ManyToOne // Добавила еще зависимость с пользователем
     @JoinColumn(name = "user_id")
     private User user;
@@ -32,6 +37,13 @@ public class Post {
         this.text = text;
         this.user = user;
         this.date = new Date();
+    }
+    public Post(@NonNull String header, @NonNull String text, @NonNull User user, String path) {
+        this.header = header;
+        this.text = text;
+        this.user = user;
+        this.date = new Date();
+        this.path = path;
     }
 
     public List<Comment> getComments() {
@@ -67,4 +79,9 @@ public class Post {
     public long getId() {
         return id;
     }
+
+    public String getPath() {
+        return path;
+    }
+
 }
