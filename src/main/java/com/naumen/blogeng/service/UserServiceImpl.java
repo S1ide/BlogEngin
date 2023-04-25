@@ -46,6 +46,10 @@ public class UserServiceImpl implements UserService {
                 .map((user) -> mapToUseDto(user))
                 .collect(Collectors.toList());
     }
+    @Override
+    public void remove(String email){
+        userRepository.delete(userRepository.findByEmail(email));
+    }
 
     public DtoUser mapToUseDto(User user) {
         DtoUser dtoUser = new DtoUser();
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService {
         dtoUser.setFirstName(str[0]);
         dtoUser.setLastName(str[1]);
         dtoUser.setEmail(user.getEmail());
+        dtoUser.setId(user.getId());
         return dtoUser;
     }
 

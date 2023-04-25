@@ -46,7 +46,7 @@
 <section>
     <div class="container my-5 py-5 text-dark">
         <div class="row d-flex justify-content-center">
-            <div class="col-md-11 col-lg-9 col-xl-7">
+            <div class="col-md-11 col-lg">
                 <div class="d-flex flex-start mb-4">
                     <div class="card w-100">
                         <div class="card-body p-4">
@@ -55,58 +55,50 @@
                                  width="65"
                                  height="65"/>
                             <h2 th:text="${onePost.header}"></h2>
-                            <h3 th:text="${onePost.user.username}"/>
+                            <h3 th:text="${onePost.getUser().getUsername()}"/>
                             <p th:text="${#dates.format(onePost.date, 'd MMMM yyyy HH:mm')}"></p>
                             <img th:src="@{${onePost.path}}"/>
                             <p th:text="${onePost.text}"/>
-                            <div sec:authorize="isAuthenticated()">
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div th:if="${currentUser.id==onePost.user.id or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
-                                        <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'"
-                                           class="btn btn-dark btn-sm" style="display: inline-block;"></a>
-                                        <form th:action="@{/post/{id}/remove(id=${onePost.id})}" method="post"
-                                              style="display: inline-block;">
-                                            <button type="submit" class="btn btn-dark btn-sm"
-                                                    th:text="'Удалить'"></button>
-                                        </form>
-                                    </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <div th:if="${currentUser.getId()==onePost.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
+                                    <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'"
+                                       class="btn btn-dark btn-sm" style="display: inline-block;"></a>
+                                    <form th:action="@{/post/{id}/remove(id=${onePost.id})}" method="post"
+                                          style="display: inline-block;">
+                                        <button type="submit" class="btn btn-dark btn-sm" th:text="'Удалить'"></button>
+                                    </form>
                                 </div>
                             </div>
-                            <div sec:authorize="isAuthenticated()">
-                                <div class="d-flex flex-end">
-                                    <img class="rounded-circle shadow-1-strong me-3"
-                                         src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
-                                         width="65"
-                                         height="65"/>
-                                    <h5>Add a comment</h5>
+                            <div class="d-flex flex-end">
+                                <img class="rounded-circle shadow-1-strong me-3"
+                                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
+                                     width="65"
+                                     height="65"/>
+                                <div class="">
+                                    <h5>Добавить комментарий</h5>
                                     <div class="form-outline d-flex justify-content-between mt-3">
-                                        <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}"
-                                              method="post"
+                                        <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post"
                                               onsubmit="return check()">
                                             <textarea id="commentId" class="form-control" th:type="text" th:name="text"
                                                       rows="4"></textarea>
-                                            <label class="form-label" for="commentId">What is your view?</label>
                                             <button type="submit" class="btn btn-dark btn-sm"
                                                     th:text="'Опубликовать'"></button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div th:each="comment : ${comments}">
-                            <img class="rounded-circle shadow-1-strong me-3"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
-                                 width="65"
-                                 height="65"/>
-                            <h5 th:text="${comment.user.username}"></h5>
-                            <p th:text="${#dates.format(comment.date, 'd MMMM yyyy HH:mm')}" class="small"></p>
-                            <p th:text="${comment.textComment}"></p>
-                            <div sec:authorize="isAuthenticated()">
+                            <div th:each="comment : ${comments}">
+                                <img class="rounded-circle shadow-1-strong me-3"
+                                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
+                                     width="65"
+                                     height="65"/>
+                                <h5 th:text="${comment.getUser().getUsername()}"></h5>
+                                <p th:text="${#dates.format(comment.date, 'd MMMM yyyy HH:mm')}" class="small"></p>
+                                <p th:text="${comment.textComment}"></p>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div th:if="${currentUser.id==comment.user.id or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
+                                    <div th:if="${currentUser.getId()==comment.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
                                         <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}"
-                                           role="button" class="btn btn-dark me-md-2 btn-sm"
-                                           th:text="'Редактировать'"
+                                           role="button" class="btn btn-dark me-md-2 btn-sm" th:text="'Редактировать'"
                                            style="display: inline-block;"></a>
                                         <form th:action="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}"
                                               method="post" style="display: inline-block;">
@@ -121,7 +113,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </section>
 </body>
