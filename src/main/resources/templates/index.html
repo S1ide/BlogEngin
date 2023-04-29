@@ -31,14 +31,17 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" sec:authorize="isAuthenticated()">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end"  id="navbarSupportedContent" sec:authorize="isAuthenticated()">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/profile}">Профиль</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/logout}">Выход</a>
                 </li>
             </ul>
         </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent2" sec:authorize="!isAuthenticated()">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end" id="navbarSupportedContent2" sec:authorize="!isAuthenticated()">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/login}">Вход</a>
@@ -49,9 +52,10 @@
 </nav>
 <div class="container mt-5 mb-5" sec:authorize="isAuthenticated()">
     <h2>Добавить статью</h2>
-    <form action="/post" method="post" onsubmit="return check()">
+    <form action="/post" method="post" onsubmit="return check()" enctype="multipart/form-data">
         <input id="header" type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"/><br>
         <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
+        <input type="file" name="image" accept="image/*" class="form-control-file">
         <button type="submit" class="btn btn-dark">Опубликовать</button>
     </form>
 </div>

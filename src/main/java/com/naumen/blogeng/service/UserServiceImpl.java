@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(DtoUser userDto) {
         User user = new User();
-        user.setUsername(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
     public void remove(String email){
         userRepository.delete(userRepository.findByEmail(email));
     }
+
 
     public DtoUser mapToUseDto(User user) {
         DtoUser dtoUser = new DtoUser();

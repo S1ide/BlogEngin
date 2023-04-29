@@ -12,8 +12,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NonNull
-    @Column(name = "username")
-    private String username;
+    @Column(name = "firstName")
+    private String firstName;
+
+    @NonNull
+    @Column(name = "lastName")
+    private String lastName;
     @NonNull
     @Column()
     private String password;
@@ -34,14 +38,11 @@ public class User {
 
     public User() {}
 
-    public User(@NonNull String username, @NonNull String password, @NonNull String email) {
-        this.username = username;
+    public User(@NonNull String firstName, @NonNull String lastName, @NonNull String password, @NonNull String email) {
+        this.firstName=firstName;
+        this.lastName=lastName;
         this.password = password;
         this.email = email;
-    }
-
-    public void setUsername(@NonNull String username) {
-        this.username = username;
     }
 
     public void setPassword(@NonNull String password) {
@@ -61,11 +62,29 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return firstName + " " + lastName;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    @NonNull
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(@NonNull String firstName) {
+        this.firstName = firstName;
+    }
+
+    @NonNull
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(@NonNull String lastName) {
+        this.lastName = lastName;
     }
 
     public List<Post> getPosts() {

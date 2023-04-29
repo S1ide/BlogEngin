@@ -91,7 +91,8 @@ public class SecurityConfig {
         roleRepository.save(userRole);
         User admin = new User();
         admin.setEmail("admin@admin.ru");
-        admin.setUsername("admin admin");
+        admin.setFirstName("admin");
+        admin.setLastName("admin");
         String s = passwordEncoder().encode("admin");
         admin.setPassword(s);
         admin.setRoles(List.of(adminRole, userRole));

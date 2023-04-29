@@ -46,7 +46,7 @@ public class PostController {
     }
 
     @PostMapping
-    public String addPost(@RequestParam String header, @RequestParam String text, @RequestParam(name ="image", required = false) MultipartFile file, Model model) throws IOException {
+    public String addPost(@RequestParam String header, @RequestParam String text, @RequestParam(name ="image", required = false) MultipartFile file) throws IOException {
         if(!file.isEmpty()) {
             postService.addPostWithFile(header, text, userService.findUserByEmail(getCurrentUserEmail()), file);
         } else {
@@ -56,12 +56,11 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/comment")
-    public String addComment(@RequestParam String text, @PathVariable String postId, Model model) {
+    public String addComment(@RequestParam String text, @PathVariable String postId) {
         commentService.addComment(text, postId, userService.findUserByEmail(getCurrentUserEmail()));
         return "redirect:/post/{postId}";
     }
 
-    // TODO добавить проверку id существует ли в бд
     @GetMapping("/{postId}")
     public String viewText(@PathVariable String postId, Model model) {
         try {
@@ -107,7 +106,7 @@ public class PostController {
 
 
     @PostMapping("/{postId}/remove")
-    public String removePost(@PathVariable String postId, Model model) {
+    public String removePost(@PathVariable String postId) {
         Post post = postService.getById(Long.parseLong(postId));
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
         if (currentUser.getId() == post.getUser().getId() || isAdmin()) {
@@ -151,7 +150,7 @@ public class PostController {
         return "redirect:/post/" + postId;
     }
 
-    private static String getCurrentUserEmail() {
+     static String getCurrentUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
