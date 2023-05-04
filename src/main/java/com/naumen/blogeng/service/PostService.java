@@ -18,7 +18,7 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + File.separator + "src" + File.separator +
-            "main" + File.separator + "resources" + File.separator + "static";
+            "main" + File.separator + "resources" + File.separator + "images";
 
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
@@ -31,7 +31,7 @@ public class PostService {
     public void addPostWithFile(String header, String text, User user, MultipartFile file) throws IOException {
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
         Files.write(fileNameAndPath, file.getBytes());
-        String path = "/resources/static/" + file.getOriginalFilename();
+        String path = "/images/" + file.getOriginalFilename();
         Post post = new Post(header, text, user, path);
         postRepository.save(post);
     }

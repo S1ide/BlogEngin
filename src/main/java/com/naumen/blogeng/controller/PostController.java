@@ -66,13 +66,6 @@ public class PostController {
         }
     }
 
-    @GetMapping(value = "/resources/static/")
-    public @ResponseBody byte[] getImage() throws IOException {
-        InputStream in = new FileInputStream("/resources/static/test.png");
-        return IOUtils.toByteArray(in);
-    }
-
-
     @GetMapping("/{postId}/edit")
     public String editPost(@PathVariable String postId, Model model) {
         Post onePost = postService.getById(Long.parseLong(postId));
