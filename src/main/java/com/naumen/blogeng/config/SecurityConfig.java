@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/static/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/post/*/comment/*").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/post/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.POST, "/profile/**").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
@@ -66,7 +67,6 @@ public class SecurityConfig {
                                         response.sendRedirect("/");
                                     }
                                 })
-//                                .defaultSuccessUrl("/")
                                 .permitAll()
                 ).logout(
                         logout -> logout

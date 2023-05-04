@@ -8,9 +8,6 @@ import com.naumen.blogeng.service.CommentService;
 import com.naumen.blogeng.service.PostService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,15 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/post")
@@ -46,8 +37,8 @@ public class PostController {
     }
 
     @PostMapping
-    public String addPost(@RequestParam String header, @RequestParam String text, @RequestParam(name ="image", required = false) MultipartFile file) throws IOException {
-        if(!file.isEmpty()) {
+    public String addPost(@RequestParam String header, @RequestParam String text, @RequestParam(name = "image", required = false) MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
             postService.addPostWithFile(header, text, userService.findUserByEmail(getCurrentUserEmail()), file);
         } else {
             postService.addPost(header, text, userService.findUserByEmail(getCurrentUserEmail()));
@@ -75,12 +66,11 @@ public class PostController {
         }
     }
 
-    @GetMapping(value ="/resources/static/")
-    public @ResponseBody byte[] getImage() throws IOException{
+    @GetMapping(value = "/resources/static/")
+    public @ResponseBody byte[] getImage() throws IOException {
         InputStream in = new FileInputStream("/resources/static/test.png");
         return IOUtils.toByteArray(in);
     }
-
 
 
     @GetMapping("/{postId}/edit")
@@ -129,7 +119,7 @@ public class PostController {
 
     @PostMapping("/{postId}/comment/edit/{commentId}")
     public String editComment(@PathVariable String postId, @PathVariable String commentId, @RequestParam String
-            textComment, Model model) {
+            textComment) {
         Comment oneComment = commentService.getById(Long.parseLong(commentId));
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
         if (currentUser.getId() == oneComment.getUser().getId() || isAdmin()) {
@@ -141,7 +131,7 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/comment/remove/{commentId}")
-    public String removeComment(@PathVariable String postId, @PathVariable String commentId, Model model) {
+    public String removeComment(@PathVariable String postId, @PathVariable String commentId) {
         Comment oneComment = commentService.getById(Long.parseLong(commentId));
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
         if (currentUser.getId() == oneComment.getUser().getId() || isAdmin()) {
@@ -150,7 +140,7 @@ public class PostController {
         return "redirect:/post/" + postId;
     }
 
-     static String getCurrentUserEmail() {
+    static String getCurrentUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }

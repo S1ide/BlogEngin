@@ -62,7 +62,7 @@
                             <p th:text="${#dates.format(onePost.date, 'd MMMM yyyy HH:mm')}"></p>
                             <img th:src="@{${onePost.path}}"/>
                             <p th:text="${onePost.text}"/>
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end" sec:authorize="isAuthenticated()" >
                                 <div th:if="${currentUser.getId()==onePost.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
                                     <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'"
                                        class="btn btn-dark btn-sm" style="display: inline-block;"></a>
@@ -77,9 +77,9 @@
                                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
                                      width="65"
                                      height="65"/>
-                                <div class="">
+                                <div sec:authorize="isAuthenticated()">
                                     <h5>Добавить комментарий</h5>
-                                    <div class="form-outline d-flex justify-content-between mt-3">
+                                    <div class="form-outline d-flex justify-content-between mt-3" >
                                         <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post"
                                               onsubmit="return check()">
                                             <textarea id="commentId" class="form-control" th:type="text" th:name="text"
@@ -98,7 +98,7 @@
                                 <h5 th:text="${comment.getUser().getUsername()}"></h5>
                                 <p th:text="${#dates.format(comment.date, 'd MMMM yyyy HH:mm')}" class="small"></p>
                                 <p th:text="${comment.textComment}"></p>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end" sec:authorize="isAuthenticated()" >
                                     <div th:if="${currentUser.getId()==comment.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
                                         <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}"
                                            role="button" class="btn btn-dark me-md-2 btn-sm" th:text="'Редактировать'"

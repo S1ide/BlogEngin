@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public List<DtoUser> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUseDto(user))
+                .map(this::mapToUseDto)
                 .collect(Collectors.toList());
     }
     @Override
@@ -63,4 +63,20 @@ public class UserServiceImpl implements UserService {
         return dtoUser;
     }
 
+    @Override
+    public void changeFields(User currentUser, String name, String lastName, String email, String password) {
+        if (!name.isEmpty()){
+            currentUser.setFirstName(name);
+        }
+        if (!lastName.isEmpty()){
+            currentUser.setLastName(lastName);
+        }
+        if (!email.isEmpty()){
+            currentUser.setEmail(email);
+        }
+        if (!password.isEmpty()){
+            currentUser.setPassword(passwordEncoder.encode(password));
+        }
+        userRepository.save(currentUser);
+    }
 }

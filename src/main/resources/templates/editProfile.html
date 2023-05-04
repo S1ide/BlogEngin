@@ -35,30 +35,30 @@
                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
                width="85"
                height="85"/>
-          <form method="post">
+          <form method="post" action="/profile/edit">
           <table cellpadding="10" cellspacing="5">
             <tr>
               <th>Имя</th>
               <td>
-                <input id="firstName" type="text" th:value="${user.firstName}" name="firstName" class="form-control">
+                <input id="firstName" type="text"  name="firstName" placeholder="Введите имя" class="form-control">
               </td>
             </tr>
             <tr>
               <th>Фамилия</th>
               <td>
-                <input id="lastName" type="text" th:value="${user.lastName}" name="lastName" class="form-control">
+                <input id="lastName" type="text"  name="lastName" placeholder="Введите фамилию" class="form-control">
               </td>
             </tr>
             <tr>
               <th>Email</th>
               <td>
-                <input id="email" type="text" th:value="${user.email}" name="email" class="form-control">
+                <input id="email" type="text"  name="email" placeholder="Введите e-mail" class="form-control">
               </td>
             </tr>
             <tr>
               <th>Пароль</th>
               <td>
-                <input id="password" type="text" th:value="${user.password}" name="password" class="form-control">
+                <input id="password" type="password" t name="password" placeholder="Введите пароль" class="form-control">
               </td>
             </tr>
           </table>

@@ -1,13 +1,13 @@
 package com.naumen.blogeng.controller;
 
-import com.naumen.blogeng.dto.DtoUser;
+
 import com.naumen.blogeng.model.User;
 import com.naumen.blogeng.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import static com.naumen.blogeng.controller.PostController.getCurrentUserEmail;
+import static com.naumen.blogeng.controller.PostController.*;
 
 @Controller
 public class ProfileController {
@@ -18,27 +18,21 @@ public class ProfileController {
     }
 // пароль отображается неверный
     @GetMapping("/profile")
-    public String showUserProfile( Model model) {
+    public String showUserProfile(Model model) {
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
         model.addAttribute("user", currentUser);
         return "profile";
     }
 
+    //TODO после смены почты и пароля выход из УЗ
     @PostMapping ("/profile/edit")
-    public String changeUserProfile(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String password, @RequestParam String email) {
+    public String changeUserProfile(@RequestParam String firstName, @RequestParam String lastName,@RequestParam String email, @RequestParam String password) {
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
-        currentUser.setFirstName(firstName);
-        currentUser.setFirstName(lastName);
-        currentUser.setFirstName(email);
-        currentUser.setFirstName(password);
-        //  userService.updateUser(currentUser);
-
+        userService.changeFields(currentUser, firstName, lastName, email, password);
         return "redirect:/profile";
     }
     @GetMapping ("/profile/edit")
-    public String changeUserProfile( Model model) {
-        User currentUser = userService.findUserByEmail(getCurrentUserEmail());
-        model.addAttribute("user", currentUser);
+    public String changeUserProfile() {
         return "editProfile";
     }
 
