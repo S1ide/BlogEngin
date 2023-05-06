@@ -18,10 +18,13 @@ public class Post {
     @NotEmpty(message = "Header cannot be empty.")
     private String header;
     @NotEmpty(message = "Text cannot be empty.")
+    @Column(columnDefinition="TEXT")
     private String text;
     private Date date;
 
-    private String path;
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image imagePath;
 
     @ManyToOne // Добавила еще зависимость с пользователем
     @JoinColumn(name = "user_id")
@@ -38,12 +41,12 @@ public class Post {
         this.user = user;
         this.date = new Date();
     }
-    public Post(@NonNull String header, @NonNull String text, @NonNull User user, String path) {
+    public Post(@NonNull String header, @NonNull String text, @NonNull User user, Image imagePath) {
         this.header = header;
         this.text = text;
         this.user = user;
         this.date = new Date();
-        this.path = path;
+        this.imagePath = imagePath;
     }
 
     public List<Comment> getComments() {
@@ -80,8 +83,8 @@ public class Post {
         return id;
     }
 
-    public String getPath() {
-        return path;
+    public Image getPath() {
+        return imagePath;
     }
 
 }

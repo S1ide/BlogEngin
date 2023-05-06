@@ -1,13 +1,23 @@
 package com.naumen.blogeng.service;
 
 import com.naumen.blogeng.dto.DtoUser;
+import com.naumen.blogeng.model.Image;
+import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.model.User;
+import com.naumen.blogeng.repository.ImageRepository;
 import com.naumen.blogeng.repository.UserRepository;
 import com.naumen.blogeng.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,13 +25,18 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ImageRepository imageRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${upload.path}")
+    private String getUploadDirectory;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ImageRepository imageRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.imageRepository = imageRepository;
     }
 
     @Override
@@ -78,5 +93,16 @@ public class UserServiceImpl implements UserService {
             currentUser.setPassword(passwordEncoder.encode(password));
         }
         userRepository.save(currentUser);
+    }
+
+    @Override
+    public void setImage(User user, MultipartFile file) throws IOException {
+        String[] strings = file.getOriginalFilename().split("\\.");
+        Image image = new Image(imageRepository.count() + "." + strings[strings.length - 1]);
+        Path fileNameAndPath = Paths.get(getUploadDirectory, File.separator, image.getName());
+        Files.write(fileNameAndPath, file.getBytes());
+        user.setProfileImage(image);
+        imageRepository.save(image);
+        userRepository.save(user);
     }
 }

@@ -6,6 +6,9 @@ import com.naumen.blogeng.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static com.naumen.blogeng.controller.PostController.*;
 
@@ -34,6 +37,13 @@ public class ProfileController {
     @GetMapping ("/profile/edit")
     public String changeUserProfile() {
         return "editProfile";
+    }
+
+    @PostMapping("/profile/change-image")
+    public String changeProfileImage(@RequestParam(name = "image")MultipartFile file) throws IOException {
+        User user = userService.findUserByEmail(getCurrentUserEmail());
+        userService.setImage(user, file);
+        return "redirect:/profile";
     }
 
 }

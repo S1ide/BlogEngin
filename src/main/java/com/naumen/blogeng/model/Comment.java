@@ -11,6 +11,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NonNull
+    @Column(columnDefinition="TEXT")
     private String textComment;
     private Date date;
     @ManyToOne

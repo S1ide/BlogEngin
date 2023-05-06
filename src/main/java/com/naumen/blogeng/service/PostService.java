@@ -1,9 +1,12 @@
 package com.naumen.blogeng.service;
 
 
+import com.naumen.blogeng.model.Image;
 import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.model.User;
+import com.naumen.blogeng.repository.ImageRepository;
 import com.naumen.blogeng.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,22 +20,28 @@ import java.util.List;
 @Service
 public class PostService {
     private final PostRepository postRepository;
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + File.separator + "src" + File.separator +
-            "main" + File.separator + "resources" + File.separator + "images";
+    private final ImageRepository imageRepository;
 
-    public PostService(PostRepository postRepository) {
+    @Value("${upload.path}")
+    private String getUploadDirectory;
+
+    public PostService(PostRepository postRepository, ImageRepository imageRepository) {
         this.postRepository = postRepository;
+        this.imageRepository = imageRepository;
     }
 
     public void addPost(String header, String text, User user) {
         Post post = new Post(header, text, user);
         postRepository.save(post);
     }
+
     public void addPostWithFile(String header, String text, User user, MultipartFile file) throws IOException {
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+        String[] strings = file.getOriginalFilename().split("\\.");
+        Image image = new Image(imageRepository.count() + "." + strings[strings.length - 1]);
+        Post post = new Post(header, text, user, image);
+        Path fileNameAndPath = Paths.get(getUploadDirectory, File.separator, image.getName());
         Files.write(fileNameAndPath, file.getBytes());
-        String path = "/images/" + file.getOriginalFilename();
-        Post post = new Post(header, text, user, path);
+        imageRepository.save(image);
         postRepository.save(post);
     }
 

@@ -18,11 +18,17 @@ public class User {
     @NonNull
     @Column(name = "lastName")
     private String lastName;
+
+    @NonNull
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "image_id")
+    private Image profileImage;
+
     @NonNull
     @Column()
     private String password;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "blog_user_id")
+    @JoinColumn(name = "user_id")
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -36,13 +42,24 @@ public class User {
             inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
     private List<Role> roles;
 
-    public User() {}
+    public User() {
+    }
 
     public User(@NonNull String firstName, @NonNull String lastName, @NonNull String password, @NonNull String email) {
         this.firstName=firstName;
         this.lastName=lastName;
         this.password = password;
         this.email = email;
+        this.profileImage = new Image("default.png");
+    }
+
+    @NonNull
+    public Image getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(@NonNull Image profileImage) {
+        this.profileImage = profileImage;
     }
 
     public void setPassword(@NonNull String password) {

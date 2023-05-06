@@ -54,13 +54,13 @@
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <img class="rounded-circle shadow-1-strong me-3"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
+                                 th:src="@{'/images/' + ${currentUser.profileImage.name}}" alt="avatar"
                                  width="65"
                                  height="65"/>
                             <h2 th:text="${onePost.header}"></h2>
                             <h3 th:text="${onePost.getUser().getUsername()}"/>
                             <p th:text="${#dates.format(onePost.date, 'd MMMM yyyy HH:mm')}"></p>
-                            <img th:src="@{${onePost.path}}"/>
+                            <img th:src="@{'/images/' + ${onePost.path.name}}" th:width="900"/>
                             <p th:text="${onePost.text}"/>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end" sec:authorize="isAuthenticated()" >
                                 <div th:if="${currentUser.getId()==onePost.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
@@ -74,7 +74,7 @@
                             </div>
                             <div class="d-flex flex-end">
                                 <img class="rounded-circle shadow-1-strong me-3"
-                                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar"
+                                     th:src="@{'/images/' + ${currentUser.profileImage.name}}" alt="avatar"
                                      width="65"
                                      height="65"/>
                                 <div sec:authorize="isAuthenticated()">
