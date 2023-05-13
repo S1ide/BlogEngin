@@ -46,8 +46,8 @@
     <h2>Редактировать статью</h2>
     <div >
         <form method="post" onsubmit="return check()">
-            <input id="header" type="text" th:value="${onePost.header}" name="header" placeholder="Введите заголовок статьи" class="form-control"><br>
-            <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control" th:text="${onePost.text}" /><br>
+            <input id="header" type="text" th:value="${post.header}" name="header" placeholder="Введите заголовок статьи" class="form-control"><br>
+            <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control" th:text="${post.text}" /><br>
             <button type="submit" class="btn btn-dark btn-sm">Обновить</button>
         </form>
     </div>

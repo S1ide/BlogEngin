@@ -41,7 +41,7 @@
   <h2>Редактировать комментарий</h2>
   <div >
     <form method="post" onsubmit="return check()">
-      <input  id="commentId" type="text" th:value="${oneComment.textComment}" name="textComment" placeholder="Введите комментарий" class="form-control"><br>
+      <input  id="commentId" type="text" th:value="${comment.textComment}" name="textComment" placeholder="Введите комментарий" class="form-control"><br>
       <button type="submit" class="btn btn-dark btn-sm">Обновить</button>
     </form>
   </div>

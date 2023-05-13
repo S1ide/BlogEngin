@@ -57,16 +57,16 @@
                                  th:src="@{'/images/' + ${currentUser.profileImage.name}}" alt="avatar"
                                  width="65"
                                  height="65"/>
-                            <h2 th:text="${onePost.header}"></h2>
-                            <h3 th:text="${onePost.getUser().getUsername()}"/>
-                            <p th:text="${#dates.format(onePost.date, 'd MMMM yyyy HH:mm')}"></p>
-                            <img th:src="@{'/images/' + ${onePost.path.name}}" th:width="900"/>
-                            <p th:text="${onePost.text}"/>
+                            <h2 th:text="${post.header}"></h2>
+                            <h3 th:text="${post.getUser().getUsername()}"/>
+                            <p th:text="${#dates.format(post.date, 'd MMMM yyyy HH:mm')}"></p>
+                            <img th:src="@{'/images/' + ${post.path.name}}" th:width="900"/>
+                            <p th:text="${post.text}"/>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end" sec:authorize="isAuthenticated()" >
-                                <div th:if="${currentUser.getId()==onePost.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
-                                    <a th:href="@{/post/{id}/edit(id=${onePost.id})}" th:text="'Редактировать'"
+                                <div th:if="${currentUser.getId()==post.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
+                                    <a th:href="@{/post/{id}/edit(id=${post.id})}" th:text="'Редактировать'"
                                        class="btn btn-dark btn-sm" style="display: inline-block;"></a>
-                                    <form th:action="@{/post/{id}/remove(id=${onePost.id})}" method="post"
+                                    <form th:action="@{/post/{id}/remove(id=${post.id})}" method="post"
                                           style="display: inline-block;">
                                         <button type="submit" class="btn btn-dark btn-sm" th:text="'Удалить'"></button>
                                     </form>
@@ -80,7 +80,7 @@
                                 <div sec:authorize="isAuthenticated()">
                                     <h5>Добавить комментарий</h5>
                                     <div class="form-outline d-flex justify-content-between mt-3" >
-                                        <form th:action="@{/post/{postId}/comment(postId=${onePost.id})}" method="post"
+                                        <form th:action="@{/post/{postId}/comment(postId=${post.id})}" method="post"
                                               onsubmit="return check()">
                                             <textarea id="commentId" class="form-control" th:type="text" th:name="text"
                                                       rows="4"></textarea>
@@ -100,10 +100,10 @@
                                 <p th:text="${comment.textComment}"></p>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end" sec:authorize="isAuthenticated()" >
                                     <div th:if="${currentUser.getId()==comment.getUser().getId() or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
-                                        <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${onePost.id}, commentId=${comment.id})}"
+                                        <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${post.id}, commentId=${comment.id})}"
                                            role="button" class="btn btn-dark me-md-2 btn-sm" th:text="'Редактировать'"
                                            style="display: inline-block;"></a>
-                                        <form th:action="@{/post/{id}/comment/remove/{commentId}(id=${onePost.id}, commentId=${comment.id})}"
+                                        <form th:action="@{/post/{id}/comment/remove/{commentId}(id=${post.id}, commentId=${comment.id})}"
                                               method="post" style="display: inline-block;">
                                             <button type="submit" class="btn btn-dark btn-sm"
                                                     th:text="'Удалить'"></button>

@@ -55,21 +55,29 @@ public class PostController {
     @GetMapping("/{postId}")
     public String viewText(@PathVariable String postId, Model model) {
         try {
-            Post onePost = postService.getById(Long.parseLong(postId));
+            Post post = postService.getById(Long.parseLong(postId));
             User currentUser = userService.findUserByEmail(getCurrentUserEmail());
-            model.addAttribute("onePost", onePost);
-            model.addAttribute("comments", onePost.getComments());
+            model.addAttribute("post", post);
+            model.addAttribute("comments", post.getComments());
             model.addAttribute("currentUser", currentUser);
             return "post";
         } catch (NullPointerException nullPointerException) {
             return "redirect:/";
         }
     }
+/*
+    @GetMapping("/images/{name}")
+    public String editPost(@PathVariable String name, Model model) {
 
+        Post post = postService.getById(Long.parseLong(postId)).getImagePath();
+        model.addAttribute("post", post);
+        return "editPost";
+    }
+*/
     @GetMapping("/{postId}/edit")
     public String editPost(@PathVariable String postId, Model model) {
-        Post onePost = postService.getById(Long.parseLong(postId));
-        model.addAttribute("onePost", onePost);
+        Post post = postService.getById(Long.parseLong(postId));
+        model.addAttribute("post", post);
         return "editPost";
     }
 
@@ -102,8 +110,8 @@ public class PostController {
     @GetMapping("/{postId}/comment/edit/{commentId}")
     public String editComment(@PathVariable String postId, @PathVariable String commentId, Model model) {
         try {
-            Comment oneComment = commentService.getById(Long.parseLong(commentId));
-            model.addAttribute("oneComment", oneComment);
+            Comment comment = commentService.getById(Long.parseLong(commentId));
+            model.addAttribute("comment", comment);
             return "editComment";
         } catch (NullPointerException nullPointerException) {
             return "redirect:/post/" + postId;
@@ -113,11 +121,11 @@ public class PostController {
     @PostMapping("/{postId}/comment/edit/{commentId}")
     public String editComment(@PathVariable String postId, @PathVariable String commentId, @RequestParam String
             textComment) {
-        Comment oneComment = commentService.getById(Long.parseLong(commentId));
+        Comment comment = commentService.getById(Long.parseLong(commentId));
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
-        if (currentUser.getId() == oneComment.getUser().getId() || isAdmin()) {
-            oneComment.setTextComment(textComment);
-            commentService.updateComment(oneComment);
+        if (currentUser.getId() == comment.getUser().getId() || isAdmin()) {
+            comment.setTextComment(textComment);
+            commentService.updateComment(comment);
             return "redirect:/post/" + postId;
         }
         return "redirect:/post/" + postId;
@@ -125,10 +133,10 @@ public class PostController {
 
     @PostMapping("/{postId}/comment/remove/{commentId}")
     public String removeComment(@PathVariable String postId, @PathVariable String commentId) {
-        Comment oneComment = commentService.getById(Long.parseLong(commentId));
+        Comment comment = commentService.getById(Long.parseLong(commentId));
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
-        if (currentUser.getId() == oneComment.getUser().getId() || isAdmin()) {
-            commentService.removeComment(oneComment);
+        if (currentUser.getId() == comment.getUser().getId() || isAdmin()) {
+            commentService.removeComment(comment);
         }
         return "redirect:/post/" + postId;
     }

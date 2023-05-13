@@ -83,6 +83,10 @@ public class Post {
         return id;
     }
 
+    public Image getImagePath() {
+        return imagePath;
+    }
+
     public Image getPath() {
         return imagePath;
     }
