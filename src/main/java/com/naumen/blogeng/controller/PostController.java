@@ -6,7 +6,6 @@ import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.service.UserService;
 import com.naumen.blogeng.service.CommentService;
 import com.naumen.blogeng.service.PostService;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,9 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 @Controller
 @RequestMapping("/post")
@@ -59,21 +56,13 @@ public class PostController {
             User currentUser = userService.findUserByEmail(getCurrentUserEmail());
             model.addAttribute("post", post);
             model.addAttribute("comments", post.getComments());
-            model.addAttribute("currentUser", currentUser);
+            model.addAttribute("user", currentUser);
             return "post";
         } catch (NullPointerException nullPointerException) {
             return "redirect:/";
         }
     }
-/*
-    @GetMapping("/images/{name}")
-    public String editPost(@PathVariable String name, Model model) {
 
-        Post post = postService.getById(Long.parseLong(postId)).getImagePath();
-        model.addAttribute("post", post);
-        return "editPost";
-    }
-*/
     @GetMapping("/{postId}/edit")
     public String editPost(@PathVariable String postId, Model model) {
         Post post = postService.getById(Long.parseLong(postId));

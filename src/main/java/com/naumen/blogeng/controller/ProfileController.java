@@ -32,7 +32,10 @@ public class ProfileController {
     public String changeUserProfile(@RequestParam String firstName, @RequestParam String lastName,@RequestParam String email, @RequestParam String password) {
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
         userService.changeFields(currentUser, firstName, lastName, email, password);
-        return "redirect:/profile";
+        if (!email.isEmpty() || !password.isEmpty()){
+            return "redirect:/logout";
+        }
+        else return "redirect:/profile";
     }
     @GetMapping ("/profile/edit")
     public String changeUserProfile() {

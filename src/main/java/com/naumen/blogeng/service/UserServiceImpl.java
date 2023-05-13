@@ -2,7 +2,6 @@ package com.naumen.blogeng.service;
 
 import com.naumen.blogeng.dto.DtoUser;
 import com.naumen.blogeng.model.Image;
-import com.naumen.blogeng.model.Post;
 import com.naumen.blogeng.model.User;
 import com.naumen.blogeng.repository.ImageRepository;
 import com.naumen.blogeng.repository.UserRepository;
@@ -13,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -98,8 +98,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setImage(User user, MultipartFile file) throws IOException {
         String[] strings = file.getOriginalFilename().split("\\.");
-        Image image = new Image(imageRepository.count() + "." + strings[strings.length - 1]);
-        Path fileNameAndPath = Paths.get(getUploadDirectory, File.separator, image.getName());
+        Image image = new Image(ImageIO.read(file.getInputStream()), strings[strings.length-1]);
+        Path fileNameAndPath = Paths.get(getUploadDirectory, File.separator, imageRepository.count() + "." + image.getExt());
         Files.write(fileNameAndPath, file.getBytes());
         user.setProfileImage(image);
         imageRepository.save(image);

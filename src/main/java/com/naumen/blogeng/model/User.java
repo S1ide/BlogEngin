@@ -3,6 +3,7 @@ package com.naumen.blogeng.model;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
+
 import java.util.ArrayList;
 import java.util.List;
 @Table(name="users")
@@ -50,7 +51,7 @@ public class User {
         this.lastName=lastName;
         this.password = password;
         this.email = email;
-        this.profileImage = new Image("default.png");
+        this.profileImage = new Image(Image.getDefault64(), "png");
     }
 
     @NonNull
@@ -107,6 +108,7 @@ public class User {
     public List<Post> getPosts() {
         return posts;
     }
+
     public void addPost(Post post){
         posts.add(post);
     }

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +23,8 @@ public class Post {
     @OneToOne
     @JoinColumn(name = "image_id")
     private Image imagePath;
+
+
 
     @ManyToOne // Добавила еще зависимость с пользователем
     @JoinColumn(name = "user_id")
@@ -90,5 +90,4 @@ public class Post {
     public Image getPath() {
         return imagePath;
     }
-
 }

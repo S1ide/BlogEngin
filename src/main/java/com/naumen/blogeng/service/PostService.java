@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,9 +21,9 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
+    @Value( "${upload.path}" )
+    private String directory;
 
-    @Value("${upload.path}")
-    private String getUploadDirectory;
 
     public PostService(PostRepository postRepository, ImageRepository imageRepository) {
         this.postRepository = postRepository;
@@ -37,9 +37,10 @@ public class PostService {
 
     public void addPostWithFile(String header, String text, User user, MultipartFile file) throws IOException {
         String[] strings = file.getOriginalFilename().split("\\.");
-        Image image = new Image(imageRepository.count() + "." + strings[strings.length - 1]);
+        String ext = strings[strings.length - 1];
+        Image image = new Image(ImageIO.read(file.getInputStream()), ext);
         Post post = new Post(header, text, user, image);
-        Path fileNameAndPath = Paths.get(getUploadDirectory, File.separator, image.getName());
+        Path fileNameAndPath = Paths.get(directory, File.separator, imageRepository.count() + "." + image.getExt());
         Files.write(fileNameAndPath, file.getBytes());
         imageRepository.save(image);
         postRepository.save(post);
@@ -60,6 +61,8 @@ public class PostService {
     public void removePost(Post post) {
         postRepository.delete(post);
     }
+
+
 }
 
 

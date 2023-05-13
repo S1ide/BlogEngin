@@ -3,7 +3,6 @@ package com.naumen.blogeng.config;
 import com.naumen.blogeng.model.Image;
 import com.naumen.blogeng.model.User;
 import com.naumen.blogeng.model.Role;
-import com.naumen.blogeng.repository.ImageRepository;
 import com.naumen.blogeng.repository.UserRepository;
 import com.naumen.blogeng.repository.RoleRepository;
 import jakarta.annotation.PostConstruct;
@@ -92,7 +91,7 @@ public class SecurityConfig {
         roleRepository.save(adminRole);
         roleRepository.save(userRole);
         User admin = new User();
-        Image image = new Image("default.png");
+        Image image = new Image(Image.getDefault64(), "png");
         String s = passwordEncoder().encode("admin");
         admin.setEmail("admin@admin.ru");
         admin.setFirstName("admin");
@@ -100,7 +99,6 @@ public class SecurityConfig {
         admin.setPassword(s);
         admin.setProfileImage(image);
         admin.setRoles(List.of(adminRole, userRole));
-//        imageRepository.save(image);
         userRepository.save(admin);
     }
 

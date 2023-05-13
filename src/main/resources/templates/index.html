@@ -66,7 +66,7 @@
                 <div class="card w-100">
                     <div class="card-body p-4">
                         <img class="rounded-circle shadow-1-strong me-3"
-                             th:src="@{'/images/' + ${post.user.profileImage.name}}" alt="avatar"
+                             th:src="@{'data:image/'+${post.user.profileImage.ext} + ';base64, ' + ${post.user.profileImage.base64}}" alt="avatar"
                              width="65"
                              height="65"/>
                         <h3 th:text="${post.user.username}"/>
