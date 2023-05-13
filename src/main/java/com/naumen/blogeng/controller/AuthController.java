@@ -52,7 +52,7 @@ public class AuthController {
         model.addAttribute("users", users);
         return "users";
     }
-    //TODO разобраться с отображением id-значений пользователей; нет связи с базой;
+
     @DeleteMapping("/users")
     public String deleteUser(@RequestParam("email") String email){
         userService.remove(email);
