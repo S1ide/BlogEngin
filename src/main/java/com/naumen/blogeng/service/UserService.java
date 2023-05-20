@@ -11,9 +11,7 @@ public interface UserService {
     void saveUser(DtoUser userDto);
     User findUserByEmail(String email);
     List<DtoUser> findAllUsers();
-    void remove(String email);
-
+    boolean remove(String email);
     void changeFields(User user, String name, String lastName, String email, String password);
-
     void setImage(User user, MultipartFile file) throws IOException;
 }

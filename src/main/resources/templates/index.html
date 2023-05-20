@@ -36,11 +36,11 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/profile}">Профиль</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Выход</a>
-                </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link active" aria-current="page" th:href="@{/users}">Список пользователей</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Выход</a>
                 </li>
             </ul>
         </div>
@@ -58,7 +58,7 @@
     <form action="/post" method="post" onsubmit="return check()" enctype="multipart/form-data">
         <input id="header" type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"/><br>
         <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
-        <input type="file" name="image" accept="image/*" class="form-control-file">
+            <input type="file" name="image" accept="image/*" class="form-control-file">
         <button type="submit" class="btn btn-dark">Опубликовать</button>
     </form>
 </div>

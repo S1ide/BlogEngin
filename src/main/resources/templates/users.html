@@ -17,6 +17,15 @@
   </style>
 </head>
 <body>
+<script>
+  String emailToDelete = "admin@admin.ru";
+  boolean isDeleted = remove(emailToDelete);
+  if (!isDeleted) {
+    showMessage("Невозможно удалить пользователя.");
+  } else {
+    showMessage("Удаление успешно завершено.");
+  }
+</script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/}">Блог</a>
@@ -54,7 +63,7 @@
       <td th:text = "${user.email}"></td>
       <td>
         <form th:action="@{/users}" th:method="delete">
-          <input type="hidden" name="email" th:value="${user.email}" />
+          <input type="hidden" name="email" th:value="${user.email}"/>
           <button type="submit" class="btn btn-danger">Удалить</button>
         </form>
       </td>

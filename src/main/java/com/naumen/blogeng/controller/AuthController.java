@@ -24,14 +24,12 @@ public class AuthController {
     public String login() {
         return "login";
     }
-
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         DtoUser user = new DtoUser();
         model.addAttribute("user", user);
         return "registration";
     }
-
     @PostMapping("/registration/save")
     public String registration(@Valid @ModelAttribute("user") DtoUser dtoUser, BindingResult result, Model model) {
         User user = userService.findUserByEmail(dtoUser.getEmail());
@@ -45,18 +43,15 @@ public class AuthController {
         userService.saveUser(dtoUser);
         return "redirect:/login";
     }
-
     @GetMapping("/users")
     public String users(Model model) {
         List<DtoUser> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "users";
     }
-
     @DeleteMapping("/users")
     public String deleteUser(@RequestParam("email") String email){
         userService.remove(email);
         return "redirect:/users";
     }
-
 }

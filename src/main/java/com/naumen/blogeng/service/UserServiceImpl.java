@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,6 @@ public class UserServiceImpl implements UserService {
 
     @Value("${upload.path}")
     private String getUploadDirectory;
-
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ImageRepository imageRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.imageRepository = imageRepository;
     }
-
     @Override
     public void saveUser(DtoUser userDto) {
         User user = new User();
@@ -49,7 +48,6 @@ public class UserServiceImpl implements UserService {
         user.setRoles(List.of(roleRepository.findByName("ROLE_USER")));
         userRepository.save(user);
     }
-
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -63,11 +61,13 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
     @Override
-    public void remove(String email){
+    public boolean remove(String email) {
+        if (email.equals("admin@admin.ru")) {
+            return false;
+        }
         userRepository.delete(userRepository.findByEmail(email));
+        return true;
     }
-
-
     public DtoUser mapToUseDto(User user) {
         DtoUser dtoUser = new DtoUser();
         String[] str = user.getUsername().split(" ");
@@ -77,7 +77,6 @@ public class UserServiceImpl implements UserService {
         dtoUser.setId(user.getId());
         return dtoUser;
     }
-
     @Override
     public void changeFields(User currentUser, String name, String lastName, String email, String password) {
         if (!name.isEmpty()){
@@ -94,7 +93,6 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(currentUser);
     }
-
     @Override
     public void setImage(User user, MultipartFile file) throws IOException {
         String[] strings = file.getOriginalFilename().split("\\.");
