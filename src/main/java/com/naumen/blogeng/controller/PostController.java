@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/post")
@@ -54,8 +57,10 @@ public class PostController {
         try {
             Post post = postService.getById(Long.parseLong(postId));
             User currentUser = userService.findUserByEmail(getCurrentUserEmail());
+            List<Comment> comments = new ArrayList<>(post.getComments());
+            Collections.reverse(comments);
             model.addAttribute("post", post);
-            model.addAttribute("comments", post.getComments());
+            model.addAttribute("comments", comments);
             model.addAttribute("user", currentUser);
             return "post";
         } catch (NullPointerException nullPointerException) {
