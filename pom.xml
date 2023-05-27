@@ -90,7 +90,7 @@
             <artifactId>ion-java</artifactId>
             <version>1.0.2</version>
         </dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

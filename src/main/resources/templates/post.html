@@ -27,7 +27,8 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end"  id="navbarSupportedContent" sec:authorize="isAuthenticated()">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end" id="navbarSupportedContent"
+             sec:authorize="isAuthenticated()">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/profile}">Профиль</a>
@@ -37,7 +38,8 @@
                 </li>
             </ul>
         </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end"  id="navbarSupportedContent2" sec:authorize="!isAuthenticated()">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end" id="navbarSupportedContent2"
+             sec:authorize="!isAuthenticated()">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/login}">Вход</a>
@@ -54,15 +56,20 @@
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <img class="rounded-circle shadow-1-strong me-3"
-                                 th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}" alt="avatar"
+                                 th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}"
+                                 alt="avatar"
                                  width="65"
                                  height="65"/>
                             <h2 th:text="${post.header}"></h2>
                             <h3 th:text="${post.user.username}"/>
                             <p th:text="${#dates.format(post.date, 'd MMMM yyyy HH:mm')}"></p>
-                            <img th:src="@{'data:image/'+${post.path.ext} + ';base64, ' + ${post.path.base64}}" th:width="900"/>
+                            <div class="imageDiv" th:if="${post.path != null && post.path.ext != null && post.path.base64 != null}">
+                                <img th:src="@{'data:image/'+${post.path.ext} + ';base64, ' + ${post.path.base64}}"
+                                     th:width="900"/>
+                            </div> <br>
                             <p th:text="${post.text}"/>
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end" sec:authorize="isAuthenticated()" >
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                                 sec:authorize="isAuthenticated()">
                                 <div th:if="${user.id==post.user.id or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
                                     <a th:href="@{/post/{id}/edit(id=${post.id})}" th:text="'Редактировать'"
                                        class="btn btn-dark btn-sm" style="display: inline-block;"></a>
@@ -74,16 +81,17 @@
                             </div>
                             <div class="d-flex flex-end">
                                 <img class="rounded-circle shadow-1-strong me-3"
-                                     th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}" alt="avatar"
+                                     th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}"
+                                     alt="avatar"
                                      width="65"
                                      height="65"/>
                                 <div sec:authorize="isAuthenticated()">
                                     <h5>Добавить комментарий</h5>
-                                    <div class="form-outline d-flex justify-content-between mt-3" >
+                                    <div class="form-outline d-flex justify-content-between mt-3">
                                         <form th:action="@{/post/{postId}/comment(postId=${post.id})}" method="post"
                                               onsubmit="return check()">
                                             <textarea id="commentId" class="form-control" th:type="text" th:name="text"
-                                                      rows="4"></textarea>
+                                                      rows="4"></textarea> <br>
                                             <button type="submit" class="btn btn-dark btn-sm"
                                                     th:text="'Опубликовать'"></button>
                                         </form>
@@ -92,13 +100,15 @@
                             </div>
                             <div th:each="comment : ${comments}">
                                 <img class="rounded-circle shadow-1-strong me-3"
-                                     th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}" alt="avatar"
+                                     th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}"
+                                     alt="avatar"
                                      width="65"
                                      height="65"/>
                                 <h5 th:text="${comment.user.username}"></h5>
                                 <p th:text="${#dates.format(comment.date, 'd MMMM yyyy HH:mm')}" class="small"></p>
                                 <p th:text="${comment.textComment}"></p>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end" sec:authorize="isAuthenticated()" >
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                                     sec:authorize="isAuthenticated()">
                                     <div th:if="${user.id==comment.user.id or #strings.contains(#authentication.principal,'ROLE_ADMIN')}">
                                         <a th:href="@{/post/{id}/comment/edit/{commentId}(id=${post.id}, commentId=${comment.id})}"
                                            role="button" class="btn btn-dark me-md-2 btn-sm" th:text="'Редактировать'"

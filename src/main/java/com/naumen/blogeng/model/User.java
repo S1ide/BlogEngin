@@ -6,7 +6,8 @@ import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-@Table(name="users")
+
+@Table(name = "users")
 @Entity
 public class User {
     @Id
@@ -39,16 +40,16 @@ public class User {
     private String email;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "roles_users",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private List<Role> roles;
 
     public User() {
     }
 
     public User(@NonNull String firstName, @NonNull String lastName, @NonNull String password, @NonNull String email) {
-        this.firstName=firstName;
-        this.lastName=lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.email = email;
         this.profileImage = new Image(Image.getDefault64(), "png");
@@ -109,7 +110,7 @@ public class User {
         return posts;
     }
 
-    public void addPost(Post post){
+    public void addPost(Post post) {
         posts.add(post);
     }
 
