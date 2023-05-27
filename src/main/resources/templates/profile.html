@@ -52,9 +52,10 @@
                     </table>
                     <br><br>
                     <a th:href="@{/profile/edit}" th:text="'Редактировать'"
-                       class="btn btn-dark btn-sm" style="display: inline-block;"></a>
+                       class="btn btn-dark btn-sm" style="display: block;"></a> <br>
                     <form action="/profile/change-image" method="post" enctype="multipart/form-data">
-                        <input type="file" name="image" accept="image/*" class="form-control-file">
+                        <label for="image" class="label btn btn-dark">Выберите аватар</label>
+                        <input type="file" class="my" id="image" name="image" multiple hidden>
                         <button type="submit" class="btn btn-dark">Изменить картинку профиля</button>
                     </form>
                 </div>

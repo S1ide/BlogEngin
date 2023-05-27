@@ -19,7 +19,7 @@ public class ProfileController {
     public ProfileController (UserService userService) {
         this.userService = userService;
     }
-// пароль отображается неверный
+
     @GetMapping("/profile")
     public String showUserProfile(Model model) {
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());
@@ -27,7 +27,6 @@ public class ProfileController {
         return "profile";
     }
 
-    //TODO после смены почты и пароля выход из УЗ
     @PostMapping ("/profile/edit")
     public String changeUserProfile(@RequestParam String firstName, @RequestParam String lastName,@RequestParam String email, @RequestParam String password) {
         User currentUser = userService.findUserByEmail(getCurrentUserEmail());

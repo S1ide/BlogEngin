@@ -58,7 +58,8 @@
     <form action="/post" method="post" onsubmit="return check()" enctype="multipart/form-data">
         <input id="header" type="text" name="header" placeholder="Введите заголовок статьи" class="form-control"/><br>
         <textarea id="text" name="text" placeholder="Введите текст статьи" class="form-control"></textarea><br>
-            <input type="file" name="image" accept="image/*" class="form-control-file">
+        <label for="image" class="label btn btn-dark">Выберите картинку</label>
+        <input type="file" class="my" id="image" name="image" multiple hidden>
         <button type="submit" class="btn btn-dark">Опубликовать</button>
     </form>
 </div>
@@ -83,6 +84,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container my-5 text-dark joke-container">
+        <h4>Случайный анекдот</h4>
+        <div class="row d-flex justify-content-center">
+            <div th:each="line : ${joke.getParagraphs()}">
+                <p th:text="${line}"></p>
             </div>
         </div>
     </div>
