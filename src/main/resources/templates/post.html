@@ -56,7 +56,7 @@
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <img class="rounded-circle shadow-1-strong me-3"
-                                 th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}"
+                                 th:src="@{'data:image/'+${post.user.profileImage.ext} + ';base64, ' + ${post.user.profileImage.base64}}"
                                  alt="avatar"
                                  width="65"
                                  height="65"/>
@@ -79,13 +79,13 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="d-flex flex-end">
+                            <div class="d-flex flex-end" sec:authorize="isAuthenticated()">
                                 <img class="rounded-circle shadow-1-strong me-3"
                                      th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}"
                                      alt="avatar"
                                      width="65"
                                      height="65"/>
-                                <div sec:authorize="isAuthenticated()">
+                                <div>
                                     <h5>Добавить комментарий</h5>
                                     <div class="form-outline d-flex justify-content-between mt-3">
                                         <form th:action="@{/post/{postId}/comment(postId=${post.id})}" method="post"
@@ -100,7 +100,7 @@
                             </div>
                             <div th:each="comment : ${comments}">
                                 <img class="rounded-circle shadow-1-strong me-3"
-                                     th:src="@{'data:image/'+${user.profileImage.ext} + ';base64, ' + ${user.profileImage.base64}}"
+                                     th:src="@{'data:image/'+${comment.user.profileImage.ext} + ';base64, ' + ${comment.user.profileImage.base64}}"
                                      alt="avatar"
                                      width="65"
                                      height="65"/>
